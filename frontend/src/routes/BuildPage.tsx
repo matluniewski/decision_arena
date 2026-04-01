@@ -4,8 +4,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { createAnalysis, getDraft } from "../lib/api";
 import type { CriterionInput, DecisionOptionInput } from "../lib/types";
 import { AppShell } from "../components/AppShell";
+import { useI18n } from "../i18n/I18nProvider";
 
 export function BuildPage() {
+  const { messages } = useI18n();
   const { draftId = "" } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, error } = useQuery({
@@ -38,17 +40,17 @@ export function BuildPage() {
 
   if (isLoading) {
     return (
-      <AppShell eyebrow="Step 2" title="Preparing your decision frame..." description="Fetching the proposed options and criteria.">
-        <section className="panel">Loading draft...</section>
+      <AppShell eyebrow={messages.build.stepEyebrow} title={messages.build.loadingTitle} description={messages.build.loadingDescription}>
+        <section className="panel">{messages.build.loadingDraft}</section>
       </AppShell>
     );
   }
 
   if (error || !data) {
     return (
-      <AppShell eyebrow="Step 2" title="Draft unavailable" description="This draft could not be loaded.">
+      <AppShell eyebrow={messages.build.stepEyebrow} title={messages.build.unavailableTitle} description={messages.build.unavailableDescription}>
         <section className="panel">
-          <p className="error-banner">{error instanceof Error ? error.message : "Draft not found."}</p>
+          <p className="error-banner">{error instanceof Error ? error.message : messages.build.draftNotFound}</p>
         </section>
       </AppShell>
     );
@@ -56,16 +58,16 @@ export function BuildPage() {
 
   return (
     <AppShell
-      eyebrow="Step 2"
-      title="Approve the frame before the verdict is generated."
-      description="The system proposed options and criteria. Edit anything that feels wrong, remove weak assumptions, and add a bit of context before analysis."
+      eyebrow={messages.build.stepEyebrow}
+      title={messages.build.title}
+      description={messages.build.description}
     >
       <section className="build-layout">
         <article className="panel sticky-panel">
-          <span className="panel-label">Decision</span>
+          <span className="panel-label">{messages.build.decision}</span>
           <h2>{data.normalizedQuestion}</h2>
           <div className="card-list-block">
-            <h4>Missing information flagged by the system</h4>
+            <h4>{messages.build.missingInfoTitle}</h4>
             <ul>
               {data.missingInfo.map((item) => (
                 <li key={item}>{item}</li>
@@ -73,29 +75,29 @@ export function BuildPage() {
             </ul>
           </div>
           <label className="input-label" htmlFor="context">
-            Extra context
+            {messages.build.extraContext}
           </label>
           <textarea
             id="context"
             className="support-input"
             value={userContext}
             onChange={(event) => setUserContext(event.target.value)}
-            placeholder="Budget, timeline, fear of regret, family constraints, anything important."
+            placeholder={messages.build.extraContextPlaceholder}
           />
           <button className="primary-button full-width" disabled={!canSubmit || analyzeMutation.isPending} onClick={() => analyzeMutation.mutate()} type="button">
-            {analyzeMutation.isPending ? "Running analysis..." : "Generate verdict"}
+            {analyzeMutation.isPending ? messages.build.runningAnalysis : messages.build.generateVerdict}
           </button>
           {analyzeMutation.error ? <p className="error-banner">{analyzeMutation.error.message}</p> : null}
         </article>
 
         <article className="panel">
           <div className="panel-header">
-            <span className="panel-label">Options</span>
+            <span className="panel-label">{messages.build.options}</span>
           </div>
           <div className="editor-grid">
             {options.map((option, index) => (
               <div key={`option-${index}`} className="editor-card">
-                <label className="input-label">Option {index + 1}</label>
+                <label className="input-label">{messages.build.optionLabel(index + 1)}</label>
                 <input
                   className="text-input"
                   value={option.label}
@@ -107,7 +109,7 @@ export function BuildPage() {
                     )
                   }
                 />
-                <label className="input-label">Optional note</label>
+                <label className="input-label">{messages.build.optionalNote}</label>
                 <textarea
                   className="support-input"
                   value={option.note}
@@ -126,7 +128,7 @@ export function BuildPage() {
 
         <article className="panel">
           <div className="panel-header">
-            <span className="panel-label">Criteria</span>
+            <span className="panel-label">{messages.build.criteria}</span>
           </div>
           <div className="criteria-editor">
             {criteria.map((criterion, index) => (
@@ -144,7 +146,7 @@ export function BuildPage() {
                 />
                 <div className="weight-control">
                   <label className="input-label" htmlFor={`weight-${index}`}>
-                    Weight
+                    {messages.build.weight}
                   </label>
                   <input
                     id={`weight-${index}`}

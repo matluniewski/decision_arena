@@ -7,8 +7,8 @@ describe("LandingPage", () => {
   it("renders the main value proposition and example prompts", () => {
     renderWithProviders(<LandingPage />);
 
-    expect(screen.getByText(/turn a vague life choice/i)).toBeInTheDocument();
-    expect(screen.getByText(/start analysis/i)).toBeInTheDocument();
+    expect(screen.getByText(/zamień niejasny życiowy dylemat/i)).toBeInTheDocument();
+    expect(screen.getByText(/rozpocznij analizę/i)).toBeInTheDocument();
     expect(screen.getAllByText(/japonii/i).length).toBeGreaterThan(0);
   });
 });

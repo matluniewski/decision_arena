@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { screen } from "@testing-library/react";
-import { ResultView } from "./ResultView";
+import { LocalizedResultView } from "./LocalizedResultView";
 import { renderWithProviders } from "../test/test-utils";
 import type { AnalysisResponse } from "../lib/types";
 
@@ -35,11 +35,11 @@ const sampleResult: AnalysisResponse = {
 
 describe("ResultView", () => {
   it("renders verdict, score, and risks", () => {
-    renderWithProviders(<ResultView result={sampleResult} />);
+    renderWithProviders(<LocalizedResultView result={sampleResult} />);
 
-    expect(screen.getByText(/leading option/i)).toBeInTheDocument();
+    expect(screen.getByText(/prowadzi opcja/i)).toBeInTheDocument();
     expect(screen.getAllByText(/78\/100/i).length).toBeGreaterThan(0);
-    expect(screen.getByText(/unknowns/i)).toBeInTheDocument();
+    expect(screen.getByText(/niewiadome/i)).toBeInTheDocument();
     expect(screen.getByText(/jak wyglada realny budzet/i)).toBeInTheDocument();
   });
 });
