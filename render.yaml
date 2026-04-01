@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: decision-arena-api
+    runtime: java
+    plan: free
+    rootDir: backend
+    buildCommand: mvn -DskipTests package
+    startCommand: java -jar target/decision-arena-backend-0.0.1-SNAPSHOT.jar
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: APP_AI_MODE
+        value: mock
+      - key: OPENAI_MODEL
+        value: gpt-5.4-mini
+      - key: OPENAI_BASE_URL
+        value: https://api.openai.com
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_USERNAME
+        sync: false
+      - key: DATABASE_PASSWORD
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false

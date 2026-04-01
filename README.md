@@ -32,6 +32,45 @@ Default AI mode is `mock`, so the product works end-to-end without paid model ca
 - `APP_AI_MODE=openai`
 - `OPENAI_API_KEY=...`
 
+## Deploy setup
+
+Recommended split for a free staging environment:
+
+- `frontend`: Vercel
+- `backend`: Render
+- `database`: Neon PostgreSQL
+
+### Frontend on Vercel
+
+1. Import the repository into Vercel.
+2. Set the project root to `frontend`.
+3. Set `VITE_API_URL` to your backend URL, for example `https://decision-arena-api.onrender.com`.
+4. Deploy.
+
+The file [frontend/vercel.json](/e:/new%20project/frontend/vercel.json) adds an SPA rewrite so direct navigation to client routes still serves `index.html`.
+
+### Backend on Render
+
+1. Create a web service from this repository or use [render.yaml](/e:/new%20project/render.yaml).
+2. Set the root directory to `backend`.
+3. Build command: `mvn -DskipTests package`
+4. Start command: `java -jar target/decision-arena-backend-0.0.1-SNAPSHOT.jar`
+5. Health check path: `/actuator/health`
+
+Required env vars for backend hosting:
+
+- `DATABASE_URL`
+- `DATABASE_USERNAME`
+- `DATABASE_PASSWORD`
+- `CORS_ALLOWED_ORIGINS`
+- optional: `APP_AI_MODE`, `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_BASE_URL`
+
+The backend is already configured to bind to the hosting provider port through `server.port=${PORT:8080}`.
+
+### Database on Neon
+
+Create a PostgreSQL database in Neon and copy the connection details into the Render env vars above.
+
 ## API overview
 
 - `POST /api/decision-drafts`
