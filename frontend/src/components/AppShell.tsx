@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import type { ReactNode } from "react";
 import { useI18n } from "../i18n/I18nProvider";
+import { cx } from "../lib/cx";
+import * as styles from "./AppShell.css";
 
 type AppShellProps = {
   eyebrow: string;
@@ -24,23 +26,23 @@ export function AppShell({
   const { locale, setLocale, messages } = useI18n();
 
   return (
-    <div className="page-shell">
-      <header className="topbar">
-        <Link to="/" className="brand">
+    <div className={styles.pageShell}>
+      <header className={styles.topbar}>
+        <Link to="/" className={styles.brand}>
           {messages.appShell.brand}
         </Link>
-        <div className="topbar-actions">
-          <span className="topbar-badge">{messages.appShell.badge}</span>
-          <div className="language-switch" aria-label={messages.appShell.languageLabel}>
+        <div className={styles.topbarActions}>
+          <span className={styles.topbarBadge}>{messages.appShell.badge}</span>
+          <div className={styles.languageSwitch} aria-label={messages.appShell.languageLabel}>
             <button
-              className={`language-button ${locale === "pl" ? "language-button-active" : ""}`}
+              className={cx(styles.languageButton, locale === "pl" && styles.languageButtonActive)}
               onClick={() => setLocale("pl")}
               type="button"
             >
               {messages.appShell.polish}
             </button>
             <button
-              className={`language-button ${locale === "en" ? "language-button-active" : ""}`}
+              className={cx(styles.languageButton, locale === "en" && styles.languageButtonActive)}
               onClick={() => setLocale("en")}
               type="button"
             >
@@ -50,14 +52,14 @@ export function AppShell({
         </div>
       </header>
 
-      <main className="page-content">
-        <section className={heroClassName ?? "hero"}>
-          <div className={heroContentClassName ?? "hero-content"}>
-            <p className="eyebrow">{eyebrow}</p>
-            <h1>{title}</h1>
-            <p className="hero-copy">{description}</p>
+      <main className={styles.pageContent}>
+        <section className={cx(styles.hero, heroClassName)}>
+          <div className={cx(styles.heroContent, heroContentClassName)}>
+            <p className={styles.topbarBadge}>{eyebrow}</p>
+            <h1 className={styles.heroTitle}>{title}</h1>
+            <p className={styles.heroCopy}>{description}</p>
           </div>
-          {heroAside ? <div className="hero-aside">{heroAside}</div> : null}
+          {heroAside ? <div className={styles.heroAside}>{heroAside}</div> : null}
         </section>
         {children}
       </main>

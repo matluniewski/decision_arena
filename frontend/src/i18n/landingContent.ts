@@ -6,11 +6,22 @@ type LandingContent = {
   heroSectionDescription: string;
   heroHighlights: string[];
   heroCards: Array<{ eyebrow: string; title: string; body: string }>;
+  sectionNav: Array<{ id: string; label: string }>;
   promptSectionLabel: string;
   promptSectionTitle: string;
   promptSectionDescription: string;
+  promptAsideLabel: string;
+  promptAsideTitle: string;
+  promptAsideDescription: string;
+  promptAsideAction: string;
   promptChecklist: string[];
   exampleSectionTitle: string;
+  stickyCtaLabel: string;
+  stickyCtaDescription: string;
+  stickyCtaAction: string;
+  bottomCtaLabel: string;
+  bottomCtaTitle: string;
+  bottomCtaDescription: string;
   processTitle: string;
   processDescription: string;
   processSteps: Array<{ title: string; description: string }>;
@@ -41,16 +52,35 @@ export const landingContent: Record<Locale, LandingContent> = {
         body: "Punktacja pokazuje, która opcja prowadzi oraz gdzie pojawia się największy koszt kompromisu."
       }
     ],
+    sectionNav: [
+      { id: "start", label: "Start" },
+      { id: "examples", label: "Przykłady" },
+      { id: "process", label: "Proces" },
+      { id: "comparison", label: "Porównanie" },
+      { id: "use-cases", label: "Zastosowania" }
+    ],
     promptSectionLabel: "Uruchom analizę",
     promptSectionTitle: "Najpierw jedno pytanie. Resztę rozkładamy na części.",
     promptSectionDescription:
       "Formularz nie walczy o uwagę z całym produktem nad foldem. Najpierw wpisujesz dylemat, potem przechodzisz przez spokojnie rozłożone etapy.",
+    promptAsideLabel: "Dobre wejście",
+    promptAsideTitle: "Nie musisz zaczynać idealnie.",
+    promptAsideDescription:
+      "Jeśli nie wiesz, jak sformułować pytanie, zobacz kilka gotowych przykładów i użyj ich jako punktu startowego.",
+    promptAsideAction: "Pokaż przykłady",
     promptChecklist: [
       "System zaproponuje opcje zamiast zmuszać Cię do ręcznego modelowania wszystkiego od zera.",
       "Przed analizą możesz poprawić kryteria, wagi i notatki, więc nie oddajesz pełnej kontroli modelowi.",
       "Końcowy wynik ma formę raportu porównawczego, a nie jednej długiej odpowiedzi."
     ],
     exampleSectionTitle: "Start od realnego dylematu, nie od pustego pola.",
+    stickyCtaLabel: "Główna akcja",
+    stickyCtaDescription: "W każdej chwili wróć do pytania i uruchom analizę.",
+    stickyCtaAction: "Wróć do formularza",
+    bottomCtaLabel: "Gotowy, żeby sprawdzić swój dylemat?",
+    bottomCtaTitle: "Przestań tylko scrollować. Zacznij od pierwszego pytania.",
+    bottomCtaDescription:
+      "Nie potrzebujesz idealnego promptu. Wpisz problem własnymi słowami, a aplikacja rozbije go na decyzję, którą da się porównać.",
     processTitle: "Jak to działa",
     processDescription:
       "Aplikacja prowadzi użytkownika przez konkretny proces zamiast zwracać jedną luźną odpowiedź.",
@@ -119,16 +149,35 @@ export const landingContent: Record<Locale, LandingContent> = {
         body: "Scoring shows which option leads and where the biggest tradeoff cost appears."
       }
     ],
+    sectionNav: [
+      { id: "start", label: "Start" },
+      { id: "examples", label: "Examples" },
+      { id: "process", label: "Process" },
+      { id: "comparison", label: "Comparison" },
+      { id: "use-cases", label: "Use cases" }
+    ],
     promptSectionLabel: "Start the analysis",
     promptSectionTitle: "One question first. Then the app breaks it down.",
     promptSectionDescription:
       "The form does not compete with the entire product above the fold. First you describe the dilemma, then you move through calmer, staged sections.",
+    promptAsideLabel: "Good starting point",
+    promptAsideTitle: "You do not need a perfect first try.",
+    promptAsideDescription:
+      "If you are not sure how to phrase the question, open a few prepared examples and use them as a starting point.",
+    promptAsideAction: "Show examples",
     promptChecklist: [
       "The system proposes options instead of forcing you to model everything from scratch.",
       "You can edit criteria, weights, and notes before analysis, so the model does not own the full decision.",
       "The final result is a comparison report, not one long answer."
     ],
     exampleSectionTitle: "Start with a real dilemma, not an empty text field.",
+    stickyCtaLabel: "Primary action",
+    stickyCtaDescription: "Jump back to the question at any point and start the analysis.",
+    stickyCtaAction: "Back to the form",
+    bottomCtaLabel: "Ready to test your own dilemma?",
+    bottomCtaTitle: "Stop just scrolling. Start with the first question.",
+    bottomCtaDescription:
+      "You do not need a perfect prompt. Write the problem in plain language and the app will break it into a decision you can compare.",
     processTitle: "How it works",
     processDescription: "The app leads the user through a concrete process instead of returning one loose answer.",
     processSteps: [

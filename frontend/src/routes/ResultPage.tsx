@@ -4,6 +4,9 @@ import { AppShell } from "../components/AppShell";
 import { LocalizedResultView } from "../components/LocalizedResultView";
 import { getResult } from "../lib/api";
 import { useI18n } from "../i18n/I18nProvider";
+import { cx } from "../lib/cx";
+import * as primitives from "../styles/primitives.css";
+import * as styles from "./ResultPage.css";
 
 export function ResultPage() {
   const { messages } = useI18n();
@@ -24,18 +27,18 @@ export function ResultPage() {
       title={messages.resultPage.title}
       description={messages.resultPage.description}
     >
-      <section className="panel share-panel">
+      <section className={cx(primitives.panel, styles.sharePanel)}>
         <div>
-          <span className="panel-label">{messages.resultPage.shareableResult}</span>
-          <p className="hero-copy">{messages.resultPage.shareDescription}</p>
+          <span className={primitives.sectionLabel}>{messages.resultPage.shareableResult}</span>
+          <p className={primitives.bodyCopy}>{messages.resultPage.shareDescription}</p>
         </div>
-        <button className="secondary-button" onClick={() => void copyLink()} type="button">
+        <button className={primitives.secondaryButton} onClick={() => void copyLink()} type="button">
           {messages.resultPage.copyLink}
         </button>
       </section>
 
-      {isLoading ? <section className="panel">{messages.resultPage.loadingResult}</section> : null}
-      {error ? <section className="panel"><p className="error-banner">{error instanceof Error ? error.message : messages.resultPage.resultLoadError}</p></section> : null}
+      {isLoading ? <section className={primitives.panel}>{messages.resultPage.loadingResult}</section> : null}
+      {error ? <section className={primitives.panel}><p className={primitives.errorBanner}>{error instanceof Error ? error.message : messages.resultPage.resultLoadError}</p></section> : null}
       {data ? <LocalizedResultView result={data} /> : null}
     </AppShell>
   );

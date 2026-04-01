@@ -5,6 +5,9 @@ import { createAnalysis, getDraft } from "../lib/api";
 import type { CriterionInput, DecisionOptionInput } from "../lib/types";
 import { AppShell } from "../components/AppShell";
 import { useI18n } from "../i18n/I18nProvider";
+import { cx } from "../lib/cx";
+import * as primitives from "../styles/primitives.css";
+import * as styles from "./BuildPage.css";
 
 export function BuildPage() {
   const { messages } = useI18n();
@@ -41,7 +44,7 @@ export function BuildPage() {
   if (isLoading) {
     return (
       <AppShell eyebrow={messages.build.stepEyebrow} title={messages.build.loadingTitle} description={messages.build.loadingDescription}>
-        <section className="panel">{messages.build.loadingDraft}</section>
+        <section className={primitives.panel}>{messages.build.loadingDraft}</section>
       </AppShell>
     );
   }
@@ -49,8 +52,8 @@ export function BuildPage() {
   if (error || !data) {
     return (
       <AppShell eyebrow={messages.build.stepEyebrow} title={messages.build.unavailableTitle} description={messages.build.unavailableDescription}>
-        <section className="panel">
-          <p className="error-banner">{error instanceof Error ? error.message : messages.build.draftNotFound}</p>
+        <section className={primitives.panel}>
+          <p className={primitives.errorBanner}>{error instanceof Error ? error.message : messages.build.draftNotFound}</p>
         </section>
       </AppShell>
     );
@@ -62,44 +65,44 @@ export function BuildPage() {
       title={messages.build.title}
       description={messages.build.description}
     >
-      <section className="build-layout">
-        <article className="panel sticky-panel">
-          <span className="panel-label">{messages.build.decision}</span>
-          <h2>{data.normalizedQuestion}</h2>
-          <div className="card-list-block">
+      <section className={styles.buildLayout}>
+        <article className={cx(primitives.panel, styles.stickyPanel)}>
+          <span className={primitives.sectionLabel}>{messages.build.decision}</span>
+          <h2 className={styles.decisionTitle}>{data.normalizedQuestion}</h2>
+          <div className={primitives.listBlock}>
             <h4>{messages.build.missingInfoTitle}</h4>
-            <ul>
+            <ul className={primitives.bulletList}>
               {data.missingInfo.map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
           </div>
-          <label className="input-label" htmlFor="context">
+          <label className={primitives.inputLabel} htmlFor="context">
             {messages.build.extraContext}
           </label>
           <textarea
             id="context"
-            className="support-input"
+            className={primitives.textareaInput}
             value={userContext}
             onChange={(event) => setUserContext(event.target.value)}
             placeholder={messages.build.extraContextPlaceholder}
           />
-          <button className="primary-button full-width" disabled={!canSubmit || analyzeMutation.isPending} onClick={() => analyzeMutation.mutate()} type="button">
+          <button className={cx(primitives.primaryButton, primitives.fullWidth)} disabled={!canSubmit || analyzeMutation.isPending} onClick={() => analyzeMutation.mutate()} type="button">
             {analyzeMutation.isPending ? messages.build.runningAnalysis : messages.build.generateVerdict}
           </button>
-          {analyzeMutation.error ? <p className="error-banner">{analyzeMutation.error.message}</p> : null}
+          {analyzeMutation.error ? <p className={primitives.errorBanner}>{analyzeMutation.error.message}</p> : null}
         </article>
 
-        <article className="panel">
-          <div className="panel-header">
-            <span className="panel-label">{messages.build.options}</span>
+        <article className={primitives.panel}>
+          <div className={primitives.headerRow}>
+            <span className={primitives.sectionLabel}>{messages.build.options}</span>
           </div>
-          <div className="editor-grid">
+          <div className={styles.editorGrid}>
             {options.map((option, index) => (
-              <div key={`option-${index}`} className="editor-card">
-                <label className="input-label">{messages.build.optionLabel(index + 1)}</label>
+              <div key={`option-${index}`} className={styles.editorCard}>
+                <label className={primitives.inputLabel}>{messages.build.optionLabel(index + 1)}</label>
                 <input
-                  className="text-input"
+                  className={primitives.textInput}
                   value={option.label}
                   onChange={(event) =>
                     setOptions((current) =>
@@ -109,9 +112,9 @@ export function BuildPage() {
                     )
                   }
                 />
-                <label className="input-label">{messages.build.optionalNote}</label>
+                <label className={primitives.inputLabel}>{messages.build.optionalNote}</label>
                 <textarea
-                  className="support-input"
+                  className={primitives.textareaInput}
                   value={option.note}
                   onChange={(event) =>
                     setOptions((current) =>
@@ -126,15 +129,15 @@ export function BuildPage() {
           </div>
         </article>
 
-        <article className="panel">
-          <div className="panel-header">
-            <span className="panel-label">{messages.build.criteria}</span>
+        <article className={primitives.panel}>
+          <div className={primitives.headerRow}>
+            <span className={primitives.sectionLabel}>{messages.build.criteria}</span>
           </div>
-          <div className="criteria-editor">
+          <div className={styles.criteriaEditor}>
             {criteria.map((criterion, index) => (
-              <div key={`criterion-${index}`} className="criterion-editor-row">
+              <div key={`criterion-${index}`} className={styles.criterionEditorRow}>
                 <input
-                  className="text-input"
+                  className={primitives.textInput}
                   value={criterion.label}
                   onChange={(event) =>
                     setCriteria((current) =>
@@ -144,13 +147,13 @@ export function BuildPage() {
                     )
                   }
                 />
-                <div className="weight-control">
-                  <label className="input-label" htmlFor={`weight-${index}`}>
+                <div className={styles.weightControl}>
+                  <label className={primitives.inputLabel} htmlFor={`weight-${index}`}>
                     {messages.build.weight}
                   </label>
                   <input
                     id={`weight-${index}`}
-                    className="range-input"
+                    className={styles.rangeInput}
                     type="range"
                     min={1}
                     max={5}
@@ -163,7 +166,7 @@ export function BuildPage() {
                       )
                     }
                   />
-                  <span className="weight-badge">{criterion.weight}</span>
+                  <span className={primitives.metricPill}>{criterion.weight}</span>
                 </div>
               </div>
             ))}

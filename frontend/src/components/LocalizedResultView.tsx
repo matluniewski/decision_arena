@@ -1,5 +1,8 @@
 import type { AnalysisResponse } from "../lib/types";
 import { useI18n } from "../i18n/I18nProvider";
+import { cx } from "../lib/cx";
+import * as primitives from "../styles/primitives.css";
+import * as styles from "./LocalizedResultView.css";
 
 type LocalizedResultViewProps = {
   result: AnalysisResponse;
@@ -33,32 +36,32 @@ export function LocalizedResultView({ result }: LocalizedResultViewProps) {
   };
 
   return (
-    <div className="result-grid">
-      <section className="panel verdict-panel">
-        <div className="panel-header">
-          <span className="panel-label">{messages.resultView.verdict}</span>
-          <span className={`confidence confidence-${result.confidence.toLowerCase()}`}>
+    <div className={styles.resultGrid}>
+      <section className={cx(primitives.panel, styles.verdictPanel)}>
+        <div className={styles.panelHeader}>
+          <span className={primitives.sectionLabel}>{messages.resultView.verdict}</span>
+          <span className={cx(styles.confidenceBadge, styles.confidenceTone[result.confidence.toLowerCase() as keyof typeof styles.confidenceTone])}>
             {messages.resultView.confidence(confidenceLabel)}
           </span>
         </div>
-        <h2>{result.normalizedQuestion}</h2>
-        <p className="verdict-copy">{result.verdict}</p>
-        <div className="winner-chip">{messages.resultView.leadingOption(winner.optionLabel, winner.weightedScore)}</div>
+        <h2 className={styles.verdictTitle}>{result.normalizedQuestion}</h2>
+        <p className={styles.verdictCopy}>{result.verdict}</p>
+        <div className={styles.winnerChip}>{messages.resultView.leadingOption(winner.optionLabel, winner.weightedScore)}</div>
       </section>
 
-      <section className="panel">
-        <div className="panel-header">
-          <span className="panel-label">{messages.resultView.scoreboard}</span>
+      <section className={primitives.panel}>
+        <div className={styles.panelHeader}>
+          <span className={primitives.sectionLabel}>{messages.resultView.scoreboard}</span>
         </div>
-        <div className="scoreboard">
+        <div className={styles.scoreboard}>
           {sortedOptions.map((option) => (
-            <div key={option.optionLabel} className="score-row">
+            <div key={option.optionLabel} className={styles.scoreRow}>
               <div>
                 <strong>{option.optionLabel}</strong>
-                <p>{option.summary}</p>
+                <p className={styles.scoreSummary}>{option.summary}</p>
               </div>
-              <div className="score-badge">
-                <span>{option.weightedScore}</span>
+              <div className={styles.scoreBadge}>
+                <span className={styles.scoreBadgeValue}>{option.weightedScore}</span>
                 <small>{bandLabel(option.weightedScore)}</small>
               </div>
             </div>
@@ -66,54 +69,54 @@ export function LocalizedResultView({ result }: LocalizedResultViewProps) {
         </div>
       </section>
 
-      <section className="panel comparison-panel">
-        <div className="panel-header">
-          <span className="panel-label">{messages.resultView.comparison}</span>
+      <section className={cx(primitives.panel, styles.comparisonPanel)}>
+        <div className={styles.panelHeader}>
+          <span className={primitives.sectionLabel}>{messages.resultView.comparison}</span>
         </div>
-        <div className="option-grid">
+        <div className={styles.optionGrid}>
           {sortedOptions.map((option) => (
-            <article key={option.optionLabel} className="option-card">
-              <div className="option-card-head">
-                <h3>{option.optionLabel}</h3>
-                <div className="score-pill">{option.weightedScore}/100</div>
+            <article key={option.optionLabel} className={styles.optionCard}>
+              <div className={styles.optionCardHead}>
+                <h3 className={styles.optionTitle}>{option.optionLabel}</h3>
+                <div className={styles.scorePill}>{option.weightedScore}/100</div>
               </div>
-              {option.note ? <p className="muted-copy">{option.note}</p> : null}
+              {option.note ? <p className={styles.note}>{option.note}</p> : null}
 
-              <div className="card-list-block">
-                <h4>{messages.resultView.pros}</h4>
-                <ul>
+              <div className={styles.listBlock}>
+                <h4 className={styles.listTitle}>{messages.resultView.pros}</h4>
+                <ul className={styles.bulletList}>
                   {option.pros.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="card-list-block">
-                <h4>{messages.resultView.cons}</h4>
-                <ul>
+              <div className={styles.listBlock}>
+                <h4 className={styles.listTitle}>{messages.resultView.cons}</h4>
+                <ul className={styles.bulletList}>
                   {option.cons.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="card-list-block">
-                <h4>{messages.resultView.risks}</h4>
-                <ul>
+              <div className={styles.listBlock}>
+                <h4 className={styles.listTitle}>{messages.resultView.risks}</h4>
+                <ul className={styles.bulletList}>
                   {option.risks.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="criteria-table">
+              <div className={styles.criteriaTable}>
                 {option.criterionScores.map((criterion) => (
-                  <div key={`${option.optionLabel}-${criterion.criterion}`} className="criterion-row">
+                  <div key={`${option.optionLabel}-${criterion.criterion}`} className={styles.criterionRow}>
                     <div>
                       <strong>{criterion.criterion}</strong>
-                      <p>{criterion.reasoning}</p>
+                      <p className={styles.criterionReasoning}>{criterion.reasoning}</p>
                     </div>
-                    <div className="criterion-metrics">
+                    <div className={styles.criterionMetrics}>
                       <span>{criterion.score}/10</span>
                       <small>{messages.resultView.weightShort(criterion.weight)}</small>
                     </div>
@@ -125,11 +128,11 @@ export function LocalizedResultView({ result }: LocalizedResultViewProps) {
         </div>
       </section>
 
-      <section className="panel">
-        <div className="panel-header">
-          <span className="panel-label">{messages.resultView.unknowns}</span>
+      <section className={primitives.panel}>
+        <div className={styles.panelHeader}>
+          <span className={primitives.sectionLabel}>{messages.resultView.unknowns}</span>
         </div>
-        <ul className="unknowns-list">
+        <ul className={styles.unknownList}>
           {result.unknowns.map((unknown) => (
             <li key={unknown}>{unknown}</li>
           ))}
