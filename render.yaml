@@ -1,11 +1,9 @@
 services:
   - type: web
     name: decision-arena-api
-    runtime: java
+    runtime: docker
     plan: free
     rootDir: backend
-    buildCommand: mvn -DskipTests package
-    startCommand: java -jar target/decision-arena-backend-0.0.1-SNAPSHOT.jar
     healthCheckPath: /actuator/health
     envVars:
       - key: APP_AI_MODE
