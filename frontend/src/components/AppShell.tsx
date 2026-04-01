@@ -7,9 +7,20 @@ type AppShellProps = {
   title: string;
   description: string;
   children: ReactNode;
+  heroClassName?: string;
+  heroContentClassName?: string;
+  heroAside?: ReactNode;
 };
 
-export function AppShell({ eyebrow, title, description, children }: AppShellProps) {
+export function AppShell({
+  eyebrow,
+  title,
+  description,
+  children,
+  heroClassName,
+  heroContentClassName,
+  heroAside
+}: AppShellProps) {
   const { locale, setLocale, messages } = useI18n();
 
   return (
@@ -40,10 +51,13 @@ export function AppShell({ eyebrow, title, description, children }: AppShellProp
       </header>
 
       <main className="page-content">
-        <section className="hero">
-          <p className="eyebrow">{eyebrow}</p>
-          <h1>{title}</h1>
-          <p className="hero-copy">{description}</p>
+        <section className={heroClassName ?? "hero"}>
+          <div className={heroContentClassName ?? "hero-content"}>
+            <p className="eyebrow">{eyebrow}</p>
+            <h1>{title}</h1>
+            <p className="hero-copy">{description}</p>
+          </div>
+          {heroAside ? <div className="hero-aside">{heroAside}</div> : null}
         </section>
         {children}
       </main>

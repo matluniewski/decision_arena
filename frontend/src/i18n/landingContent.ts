@@ -1,6 +1,16 @@
 import type { Locale } from "./translations";
 
 type LandingContent = {
+  heroSectionLabel: string;
+  heroSectionTitle: string;
+  heroSectionDescription: string;
+  heroHighlights: string[];
+  heroCards: Array<{ eyebrow: string; title: string; body: string }>;
+  promptSectionLabel: string;
+  promptSectionTitle: string;
+  promptSectionDescription: string;
+  promptChecklist: string[];
+  exampleSectionTitle: string;
   processTitle: string;
   processDescription: string;
   processSteps: Array<{ title: string; description: string }>;
@@ -14,6 +24,33 @@ type LandingContent = {
 
 export const landingContent: Record<Locale, LandingContent> = {
   pl: {
+    heroSectionLabel: "Jak to działa w praktyce",
+    heroSectionTitle: "Werdykt bez chaosu rozmowy.",
+    heroSectionDescription:
+      "Najpierw porządkujemy problem, potem pokazujemy kompromisy. Pierwsze wrażenie ma prowadzić użytkownika przez produkt, a nie zasypywać go wszystkim naraz.",
+    heroHighlights: ["3 kroki do raportu", "czytelny scoring opcji", "wynik gotowy do udostępnienia"],
+    heroCards: [
+      {
+        eyebrow: "Szkic decyzji",
+        title: "Wyjazd do Japonii",
+        body: "System najpierw proponuje opcje, kryteria i braki informacyjne, a dopiero później przechodzi do werdyktu."
+      },
+      {
+        eyebrow: "Tablica wyników",
+        title: "69 / 100",
+        body: "Punktacja pokazuje, która opcja prowadzi oraz gdzie pojawia się największy koszt kompromisu."
+      }
+    ],
+    promptSectionLabel: "Uruchom analizę",
+    promptSectionTitle: "Najpierw jedno pytanie. Resztę rozkładamy na części.",
+    promptSectionDescription:
+      "Formularz nie walczy o uwagę z całym produktem nad foldem. Najpierw wpisujesz dylemat, potem przechodzisz przez spokojnie rozłożone etapy.",
+    promptChecklist: [
+      "System zaproponuje opcje zamiast zmuszać Cię do ręcznego modelowania wszystkiego od zera.",
+      "Przed analizą możesz poprawić kryteria, wagi i notatki, więc nie oddajesz pełnej kontroli modelowi.",
+      "Końcowy wynik ma formę raportu porównawczego, a nie jednej długiej odpowiedzi."
+    ],
+    exampleSectionTitle: "Start od realnego dylematu, nie od pustego pola.",
     processTitle: "Jak to działa",
     processDescription:
       "Aplikacja prowadzi użytkownika przez konkretny proces zamiast zwracać jedną luźną odpowiedź.",
@@ -65,6 +102,33 @@ export const landingContent: Record<Locale, LandingContent> = {
     ]
   },
   en: {
+    heroSectionLabel: "How it works in practice",
+    heroSectionTitle: "A verdict without chat chaos.",
+    heroSectionDescription:
+      "First the problem gets framed, then the tradeoffs become visible. The first impression should guide the user through the product instead of dumping everything at once.",
+    heroHighlights: ["3 steps to a report", "clear option scoring", "share-ready outcome"],
+    heroCards: [
+      {
+        eyebrow: "Decision draft",
+        title: "Trip to Japan",
+        body: "The system first proposes options, criteria, and missing information before it moves into the verdict."
+      },
+      {
+        eyebrow: "Scoreboard",
+        title: "69 / 100",
+        body: "Scoring shows which option leads and where the biggest tradeoff cost appears."
+      }
+    ],
+    promptSectionLabel: "Start the analysis",
+    promptSectionTitle: "One question first. Then the app breaks it down.",
+    promptSectionDescription:
+      "The form does not compete with the entire product above the fold. First you describe the dilemma, then you move through calmer, staged sections.",
+    promptChecklist: [
+      "The system proposes options instead of forcing you to model everything from scratch.",
+      "You can edit criteria, weights, and notes before analysis, so the model does not own the full decision.",
+      "The final result is a comparison report, not one long answer."
+    ],
+    exampleSectionTitle: "Start with a real dilemma, not an empty text field.",
     processTitle: "How it works",
     processDescription: "The app leads the user through a concrete process instead of returning one loose answer.",
     processSteps: [
