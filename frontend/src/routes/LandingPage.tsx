@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { createDraft } from "../lib/api";
 import { AppShell } from "../components/AppShell";
 import { useI18n } from "../i18n/I18nProvider";
+import { landingContent } from "../i18n/landingContent";
 
 export function LandingPage() {
   const navigate = useNavigate();
-  const { messages } = useI18n();
+  const { locale, messages } = useI18n();
+  const onboarding = landingContent[locale];
   const examplePrompts = messages.landing.examples;
   const [question, setQuestion] = useState(examplePrompts[0]);
 
@@ -58,6 +60,54 @@ export function LandingPage() {
             <strong>{prompt}</strong>
           </button>
         ))}
+      </section>
+
+      <section className="info-section">
+        <div className="info-section-header">
+          <span className="panel-label">{onboarding.processTitle}</span>
+          <p className="hero-copy">{onboarding.processDescription}</p>
+        </div>
+        <div className="insight-grid">
+          {onboarding.processSteps.map((step) => (
+            <article key={step.title} className="insight-card">
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="info-section">
+        <div className="info-section-header">
+          <span className="panel-label">{onboarding.comparisonTitle}</span>
+          <p className="hero-copy">{onboarding.comparisonDescription}</p>
+        </div>
+        <div className="insight-grid comparison-grid">
+          {onboarding.comparisonCards.map((card) => (
+            <article key={card.title} className="insight-card comparison-card">
+              <h3>{card.title}</h3>
+              <ul>
+                {card.bullets.map((bullet) => (
+                  <li key={bullet}>{bullet}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel use-cases-panel">
+        <div className="info-section-header">
+          <span className="panel-label">{onboarding.useCasesTitle}</span>
+          <p className="hero-copy">{onboarding.useCasesDescription}</p>
+        </div>
+        <div className="use-cases-list">
+          {onboarding.useCases.map((useCase) => (
+            <span key={useCase} className="use-case-chip">
+              {useCase}
+            </span>
+          ))}
+        </div>
       </section>
     </AppShell>
   );

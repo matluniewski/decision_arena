@@ -243,7 +243,8 @@ textarea {
 
 .example-grid,
 .editor-grid,
-.option-grid {
+.option-grid,
+.insight-grid {
   display: grid;
   gap: 16px;
 }
@@ -262,6 +263,71 @@ textarea {
   gap: 8px;
   cursor: pointer;
   box-shadow: var(--shadow);
+}
+
+.info-section {
+  display: grid;
+  gap: 16px;
+}
+
+.info-section-header {
+  display: grid;
+  gap: 8px;
+  max-width: 720px;
+}
+
+.insight-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.insight-card {
+  background: var(--panel-strong);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 10px;
+}
+
+.insight-card h3 {
+  font-family: "Space Grotesk", sans-serif;
+  margin: 0;
+}
+
+.insight-card p,
+.insight-card li {
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.55;
+}
+
+.comparison-card ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+}
+
+.use-cases-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.use-cases-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.use-case-chip {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: rgba(15, 139, 141, 0.1);
+  border: 1px solid rgba(15, 139, 141, 0.18);
+  font-weight: 600;
 }
 
 .build-layout {
