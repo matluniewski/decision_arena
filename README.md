@@ -10,7 +10,7 @@ Decision Arena is a comparison-first decision tool for everyday life choices. Th
 ## Repo structure
 
 - `frontend`: React + TypeScript + Vite client
-- `backend`: Spring Boot API with mock AI mode and optional OpenAI mode
+- `backend`: Spring Boot API with mock AI mode and optional OpenAI or Gemini mode
 
 ## Local setup
 
@@ -22,15 +22,40 @@ Decision Arena is a comparison-first decision tool for everyday life choices. Th
 
 ### Backend
 
-1. Copy [backend/.env.example](/e:/new%20project/backend/.env.example) to your environment.
+1. Copy [backend/.env.example](/e:/new%20project/backend/.env.example) or one of the provider-specific examples in `backend/` to a local env file.
 2. Start PostgreSQL with `docker compose up -d`.
 3. Install Java 21 and Maven.
 4. Run `mvn spring-boot:run` in `backend`.
 
-Default AI mode is `mock`, so the product works end-to-end without paid model calls. To switch to OpenAI, set:
+Recommended local setup:
+
+- copy [backend/.env.mock.example](/e:/new%20project/backend/.env.mock.example) to `backend/.env.mock.local`
+- copy [backend/.env.gemini.example](/e:/new%20project/backend/.env.gemini.example) to `backend/.env.gemini.local`
+- copy [backend/.env.openai.example](/e:/new%20project/backend/.env.openai.example) to `backend/.env.openai.local`
+
+Then start the backend with one command:
+
+- `.\run-mock.ps1`
+- `.\run-gemini.ps1`
+- `.\run-openai.ps1`
+
+The local example env files disable request rate limiting by default, so repeated draft/analysis testing is not throttled during development.
+
+Default AI mode is `mock`, so the product works end-to-end without paid model calls.
+
+To switch to OpenAI, set:
 
 - `APP_AI_MODE=openai`
-- `OPENAI_API_KEY=...`
+- `APP_AI_API_KEY=...`
+- `APP_AI_MODEL=gpt-5.4-mini`
+
+To switch to Gemini, set:
+
+- `APP_AI_MODE=gemini`
+- `APP_AI_API_KEY=...`
+- `APP_AI_MODEL=gemini-2.5-flash-lite`
+
+If you prefer provider-specific env vars, the backend still accepts `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_BASE_URL`, and `GEMINI_API_KEY` as fallbacks.
 
 ## Deploy setup
 
@@ -63,7 +88,7 @@ Required env vars for backend hosting:
 - `DATABASE_USERNAME`
 - `DATABASE_PASSWORD`
 - `CORS_ALLOWED_ORIGINS`
-- optional: `APP_AI_MODE`, `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_BASE_URL`
+- optional: `APP_AI_MODE`, `APP_AI_API_KEY`, `APP_AI_MODEL`, `APP_AI_BASE_URL`
 
 The backend is already configured to bind to the hosting provider port through `server.port=${PORT:8080}`.
 

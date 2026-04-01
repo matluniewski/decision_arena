@@ -20,6 +20,9 @@ import java.util.Map;
 @ConditionalOnProperty(name = "app.ai.mode", havingValue = "openai")
 public class OpenAiDecisionService implements AiDecisionService {
 
+    private static final String DEFAULT_BASE_URL = "https://api.openai.com";
+    private static final String DEFAULT_MODEL = "gpt-5.4-mini";
+
     private final RestClient restClient;
     private final ObjectMapper objectMapper;
     private final AiProperties aiProperties;
@@ -28,7 +31,7 @@ public class OpenAiDecisionService implements AiDecisionService {
         this.objectMapper = objectMapper;
         this.aiProperties = aiProperties;
         this.restClient = RestClient.builder()
-                .baseUrl(aiProperties.baseUrl())
+                .baseUrl(resolveBaseUrl(aiProperties))
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + aiProperties.apiKey())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
@@ -85,7 +88,7 @@ public class OpenAiDecisionService implements AiDecisionService {
         }
 
         Map<String, Object> body = Map.of(
-                "model", aiProperties.model(),
+                "model", resolveModel(aiProperties),
                 "input", List.of(
                         Map.of(
                                 "role", "system",
@@ -140,5 +143,21 @@ public class OpenAiDecisionService implements AiDecisionService {
 
     private String languageName(String locale) {
         return "pl".equalsIgnoreCase(locale) ? "Polish" : "English";
+    }
+
+    private String resolveBaseUrl(AiProperties properties) {
+        String configured = properties.baseUrl();
+        if (configured != null && !configured.isBlank()) {
+            return configured;
+        }
+        return DEFAULT_BASE_URL;
+    }
+
+    private String resolveModel(AiProperties properties) {
+        String configured = properties.model();
+        if (configured != null && !configured.isBlank()) {
+            return configured;
+        }
+        return DEFAULT_MODEL;
     }
 }

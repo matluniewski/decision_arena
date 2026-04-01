@@ -34,7 +34,7 @@ public class RateLimitingFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        if (shouldLimit(request)) {
+        if (rateLimitProperties.enabled() && shouldLimit(request)) {
             String clientKey = resolveClientKey(request);
             Deque<Instant> timestamps = requestsByIp.computeIfAbsent(clientKey, ignored -> new ArrayDeque<>());
             Instant cutoff = Instant.now().minusSeconds(rateLimitProperties.windowSeconds());
