@@ -5,6 +5,7 @@ import type {
   DecisionOptionInput,
   DraftResponse
 } from "./types";
+import type { Locale } from "../i18n/locale";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
 
@@ -30,10 +31,10 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return (await response.json()) as T;
 }
 
-export function createDraft(question: string) {
+export function createDraft(question: string, locale: Locale) {
   return request<DraftResponse>("/api/decision-drafts", {
     method: "POST",
-    body: JSON.stringify({ question })
+    body: JSON.stringify({ question, locale })
   });
 }
 
@@ -45,11 +46,12 @@ export function createAnalysis(
   draftId: string,
   options: DecisionOptionInput[],
   criteria: CriterionInput[],
-  userContext: string
+  userContext: string,
+  locale: Locale
 ) {
   return request<AnalysisResponse>("/api/decision-analyses", {
     method: "POST",
-    body: JSON.stringify({ draftId, options, criteria, userContext })
+    body: JSON.stringify({ draftId, options, criteria, userContext, locale })
   });
 }
 

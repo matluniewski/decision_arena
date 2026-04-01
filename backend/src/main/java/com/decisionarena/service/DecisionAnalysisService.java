@@ -56,6 +56,7 @@ public class DecisionAnalysisService {
     public AnalysisResponse analyze(CreateAnalysisRequest request) {
         DecisionDraftEntity draftEntity = decisionDraftService.getDraftEntity(request.draftId());
         DecisionFrame draftFrame = decisionDraftService.readFrame(draftEntity);
+        String locale = normalizeLocale(request.locale());
 
         List<DecisionOptionInput> options = request.options().stream()
                 .map(dto -> new DecisionOptionInput(dto.label().trim(), dto.note()))
@@ -73,7 +74,8 @@ public class DecisionAnalysisService {
                         options,
                         criteria,
                         request.userContext(),
-                        draftFrame.missingInfo()
+                        draftFrame.missingInfo(),
+                        locale
                 )
         );
 
@@ -163,5 +165,12 @@ public class DecisionAnalysisService {
         } catch (Exception exception) {
             throw new AiIntegrationException("Stored result could not be read.", exception);
         }
+    }
+
+    private String normalizeLocale(String rawLocale) {
+        if ("en".equalsIgnoreCase(rawLocale)) {
+            return "en";
+        }
+        return "pl";
     }
 }

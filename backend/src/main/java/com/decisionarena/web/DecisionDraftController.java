@@ -26,7 +26,7 @@ public class DecisionDraftController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DraftResponse createDraft(@Valid @RequestBody CreateDraftRequest request) {
-        return decisionDraftService.createDraft(request.question());
+        return decisionDraftService.createDraft(request.question(), request.locale());
     }
 
     @GetMapping("/{draftId}")

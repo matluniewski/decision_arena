@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { translations, type Locale } from "./translations";
+import { messages } from "./messages";
+import type { Locale } from "./locale";
 
 type I18nContextValue = {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-  messages: (typeof translations)[Locale];
+  messages: (typeof messages)[Locale];
 };
 
 const STORAGE_KEY = "decision-arena-locale";
@@ -36,7 +37,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     () => ({
       locale,
       setLocale: setLocaleState,
-      messages: translations[locale]
+      messages: messages[locale]
     }),
     [locale]
   );

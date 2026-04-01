@@ -1,4 +1,4 @@
-export type Locale = "pl" | "en";
+import type { Locale } from "./locale";
 
 type TranslationSet = {
   appShell: {
@@ -56,20 +56,30 @@ type TranslationSet = {
     verdict: string;
     confidence: (level: string) => string;
     leadingOption: (label: string, score: number) => string;
+    leadingOptionShort: string;
+    confidenceShort: string;
+    unknownCount: string;
+    unknownCountValue: (count: number) => string;
     scoreboard: string;
+    scoreboardDescription: string;
     comparison: string;
+    comparisonDescription: string;
     pros: string;
     cons: string;
     risks: string;
     unknowns: string;
+    unknownsDescription: string;
     strong: string;
     balanced: string;
     fragile: string;
+    rankLabel: (rank: number) => string;
+    scoreOutOf: string;
+    criteriaBreakdown: string;
     weightShort: (weight: number) => string;
   };
 };
 
-export const translations: Record<Locale, TranslationSet> = {
+export const messages: Record<Locale, TranslationSet> = {
   pl: {
     appShell: {
       brand: "Decision Arena",
@@ -134,15 +144,25 @@ export const translations: Record<Locale, TranslationSet> = {
       verdict: "Werdykt",
       confidence: (level) => `Pewność: ${level}`,
       leadingOption: (label, score) => `Prowadzi opcja: ${label} z wynikiem ${score}/100`,
+      leadingOptionShort: "Prowadzi",
+      confidenceShort: "Pewność",
+      unknownCount: "Liczba niewiadomych",
+      unknownCountValue: (count) => `${count}`,
       scoreboard: "Tablica wyników",
+      scoreboardDescription: "Szybkie porównanie opcji według łącznego wyniku ważonego.",
       comparison: "Porównanie opcji",
+      comparisonDescription: "Każda opcja ma własny profil mocnych stron, kosztów i ryzyk.",
       pros: "Plusy",
       cons: "Minusy",
       risks: "Ryzyka",
       unknowns: "Niewiadome",
+      unknownsDescription: "To kwestie, które najbardziej obniżają pewność tej analizy.",
       strong: "Mocna",
       balanced: "Zrównoważona",
       fragile: "Krucha",
+      rankLabel: (rank) => `Miejsce ${rank}`,
+      scoreOutOf: "/100",
+      criteriaBreakdown: "Rozbicie po kryteriach",
       weightShort: (weight) => `w${weight}`
     }
   },
@@ -210,15 +230,25 @@ export const translations: Record<Locale, TranslationSet> = {
       verdict: "Verdict",
       confidence: (level) => `${level} confidence`,
       leadingOption: (label, score) => `Leading option: ${label} with ${score}/100`,
+      leadingOptionShort: "Leader",
+      confidenceShort: "Confidence",
+      unknownCount: "Unknown count",
+      unknownCountValue: (count) => `${count}`,
       scoreboard: "Scoreboard",
+      scoreboardDescription: "A fast comparison of options by total weighted score.",
       comparison: "Option comparison",
+      comparisonDescription: "Each option gets its own profile of upside, downside, and risk.",
       pros: "Pros",
       cons: "Cons",
       risks: "Risks",
       unknowns: "Unknowns",
+      unknownsDescription: "These are the gaps that reduce confidence in the current verdict.",
       strong: "Strong",
       balanced: "Balanced",
       fragile: "Fragile",
+      rankLabel: (rank) => `Rank ${rank}`,
+      scoreOutOf: "/100",
+      criteriaBreakdown: "Criteria breakdown",
       weightShort: (weight) => `w${weight}`
     }
   }

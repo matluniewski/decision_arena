@@ -7,6 +7,7 @@ public record DecisionAnalysisRequest(
         List<DecisionOptionInput> options,
         List<CriterionInput> criteria,
         String userContext,
-        List<String> draftMissingInfo
+        List<String> draftMissingInfo,
+        String locale
 ) {
 }

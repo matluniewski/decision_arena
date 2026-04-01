@@ -10,7 +10,7 @@ import * as primitives from "../styles/primitives.css";
 import * as styles from "./BuildPage.css";
 
 export function BuildPage() {
-  const { messages } = useI18n();
+  const { locale, messages } = useI18n();
   const { draftId = "" } = useParams();
   const navigate = useNavigate();
   const { data, isLoading, error } = useQuery({
@@ -33,7 +33,7 @@ export function BuildPage() {
   }, [data, initialized]);
 
   const analyzeMutation = useMutation({
-    mutationFn: () => createAnalysis(draftId, options, criteria, userContext),
+    mutationFn: () => createAnalysis(draftId, options, criteria, userContext, locale),
     onSuccess: (result) => navigate(`/result/${result.shareSlug}`)
   });
 

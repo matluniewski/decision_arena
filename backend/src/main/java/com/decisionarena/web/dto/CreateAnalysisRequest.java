@@ -2,6 +2,7 @@ package com.decisionarena.web.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public record CreateAnalysisRequest(
         @Size(min = 4, max = 6)
         List<CriterionInputDto> criteria,
         @Size(max = 400)
-        String userContext
+        String userContext,
+        @Pattern(regexp = "pl|en", message = "Locale must be 'pl' or 'en'.")
+        String locale
 ) {
 }

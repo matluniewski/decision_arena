@@ -35,17 +35,18 @@ public class OpenAiDecisionService implements AiDecisionService {
     }
 
     @Override
-    public DecisionFrame proposeDecisionFrame(String question) {
+    public DecisionFrame proposeDecisionFrame(String question, String locale) {
         String prompt = """
                 You are a structured decision framing assistant.
                 Return JSON only.
+                Return all user-facing strings in %s.
                 Output keys:
                 normalizedQuestion: string
                 proposedOptions: array of 2 to 4 objects with label and note
                 proposedCriteria: array of 4 to 6 objects with label and weight from 1 to 5
                 missingInfo: array of 2 to 4 strings
                 The question is: %s
-                """.formatted(question);
+                """.formatted(languageName(locale), question);
 
         return callJson(prompt, DecisionFrame.class);
     }
@@ -54,6 +55,8 @@ public class OpenAiDecisionService implements AiDecisionService {
     public DecisionAnalysisResult analyzeDecision(DecisionAnalysisRequest request) {
         String prompt = """
                 You analyze a personal decision and return JSON only.
+                Return all user-facing strings in %s.
+                Keep confidence as one of these exact English enum values only: High, Medium, Low.
                 Output keys:
                 normalizedQuestion: string
                 verdict: string under 280 chars
@@ -71,7 +74,7 @@ public class OpenAiDecisionService implements AiDecisionService {
 
                 Decision payload:
                 %s
-                """.formatted(writeValue(request));
+                """.formatted(languageName(request.locale()), writeValue(request));
 
         return callJson(prompt, DecisionAnalysisResult.class);
     }
@@ -133,5 +136,9 @@ public class OpenAiDecisionService implements AiDecisionService {
         } catch (Exception exception) {
             throw new AiIntegrationException("Decision payload could not be serialized.", exception);
         }
+    }
+
+    private String languageName(String locale) {
+        return "pl".equalsIgnoreCase(locale) ? "Polish" : "English";
     }
 }

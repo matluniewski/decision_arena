@@ -39,11 +39,12 @@ public class DecisionDraftService {
     }
 
     @Transactional
-    public DraftResponse createDraft(String rawQuestion) {
+    public DraftResponse createDraft(String rawQuestion, String rawLocale) {
         String question = decisionValidator.sanitizeQuestion(rawQuestion);
+        String locale = normalizeLocale(rawLocale);
         moderationService.assertAllowed(question);
 
-        DecisionFrame frame = aiDecisionService.proposeDecisionFrame(question);
+        DecisionFrame frame = aiDecisionService.proposeDecisionFrame(question, locale);
         decisionValidator.validateFrame(frame);
 
         DecisionDraftEntity entity = new DecisionDraftEntity();
@@ -106,5 +107,12 @@ public class DecisionDraftService {
 
     private CriterionInputDto toDto(CriterionInput criterion) {
         return new CriterionInputDto(criterion.label(), criterion.weight());
+    }
+
+    private String normalizeLocale(String rawLocale) {
+        if ("en".equalsIgnoreCase(rawLocale)) {
+            return "en";
+        }
+        return "pl";
     }
 }

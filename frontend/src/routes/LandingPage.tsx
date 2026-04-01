@@ -112,7 +112,7 @@ export function LandingPage() {
         ];
 
   const draftMutation = useMutation({
-    mutationFn: createDraft,
+    mutationFn: (draftQuestion: string) => createDraft(draftQuestion, locale),
     onSuccess: (draft) => navigate(`/build/${draft.draftId}`)
   });
 

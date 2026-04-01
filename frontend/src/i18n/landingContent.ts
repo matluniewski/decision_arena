@@ -1,4 +1,4 @@
-import type { Locale } from "./translations";
+import type { Locale } from "./locale";
 
 type LandingContent = {
   heroSectionLabel: string;
