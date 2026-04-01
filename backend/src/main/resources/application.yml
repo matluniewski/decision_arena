@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: decision-arena
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/decision_arena}
+    username: ${DATABASE_USERNAME:decision_arena}
+    password: ${DATABASE_PASSWORD:decision_arena}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  flyway:
+    enabled: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  error:
+    include-message: never
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+  ai:
+    mode: ${APP_AI_MODE:mock}
+    model: ${OPENAI_MODEL:gpt-5.4-mini}
+    api-key: ${OPENAI_API_KEY:}
+    base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+  decision:
+    max-question-length: 280
+    min-options: 2
+    max-options: 4
+    min-criteria: 4
+    max-criteria: 6
+    min-weight: 1
+    max-weight: 5
+  rate-limit:
+    window-seconds: 3600
+    max-requests: 12
+
+logging:
+  level:
+    com.decisionarena: INFO
