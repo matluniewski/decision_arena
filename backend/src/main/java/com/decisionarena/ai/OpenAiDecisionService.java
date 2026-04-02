@@ -39,45 +39,14 @@ public class OpenAiDecisionService implements AiDecisionService {
 
     @Override
     public DecisionFrame proposeDecisionFrame(String question, String locale) {
-        String prompt = """
-                You are a structured decision framing assistant.
-                Return JSON only.
-                Return all user-facing strings in %s.
-                Output keys:
-                normalizedQuestion: string
-                proposedOptions: array of 2 to 4 objects with label and note
-                proposedCriteria: array of 4 to 6 objects with label and weight from 1 to 5
-                missingInfo: array of 2 to 4 strings
-                The question is: %s
-                """.formatted(languageName(locale), question);
+        String prompt = DecisionPrompts.decisionFramePrompt(question, locale);
 
         return callJson(prompt, DecisionFrame.class);
     }
 
     @Override
     public DecisionAnalysisResult analyzeDecision(DecisionAnalysisRequest request) {
-        String prompt = """
-                You analyze a personal decision and return JSON only.
-                Return all user-facing strings in %s.
-                Keep confidence as one of these exact English enum values only: High, Medium, Low.
-                Output keys:
-                normalizedQuestion: string
-                verdict: string under 280 chars
-                confidence: one of High, Medium, Low
-                unknowns: array of up to 4 strings
-                optionResults: array of objects where each object has:
-                  optionLabel: string
-                  note: string or null
-                  pros: array of 2 strings
-                  cons: array of 2 strings
-                  risks: array of 2 strings
-                  summary: string
-                  weightedScore: number from 0 to 100
-                  criterionScores: array with one entry per criterion, each entry containing criterion, weight, score from 1 to 10, reasoning
-
-                Decision payload:
-                %s
-                """.formatted(languageName(request.locale()), writeValue(request));
+        String prompt = DecisionPrompts.decisionAnalysisPrompt(request, writeValue(request));
 
         return callJson(prompt, DecisionAnalysisResult.class);
     }
@@ -92,7 +61,7 @@ public class OpenAiDecisionService implements AiDecisionService {
                 "input", List.of(
                         Map.of(
                                 "role", "system",
-                                "content", List.of(Map.of("type", "input_text", "text", "Return valid JSON only."))
+                                "content", List.of(Map.of("type", "input_text", "text", DecisionPrompts.openAiSystemPrompt()))
                         ),
                         Map.of(
                                 "role", "user",
@@ -140,11 +109,6 @@ public class OpenAiDecisionService implements AiDecisionService {
             throw new AiIntegrationException("Decision payload could not be serialized.", exception);
         }
     }
-
-    private String languageName(String locale) {
-        return "pl".equalsIgnoreCase(locale) ? "Polish" : "English";
-    }
-
     private String resolveBaseUrl(AiProperties properties) {
         String configured = properties.baseUrl();
         if (configured != null && !configured.isBlank()) {

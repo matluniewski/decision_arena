@@ -38,28 +38,14 @@ public class GeminiDecisionService implements AiDecisionService {
 
     @Override
     public DecisionFrame proposeDecisionFrame(String question, String locale) {
-        String prompt = """
-                You are a structured decision framing assistant.
-                Return user-facing strings in %s.
-                Return JSON only that matches the schema.
-
-                Question:
-                %s
-                """.formatted(languageName(locale), question);
+        String prompt = DecisionPrompts.decisionFramePrompt(question, locale);
 
         return callJson(prompt, decisionFrameSchema(), DecisionFrame.class);
     }
 
     @Override
     public DecisionAnalysisResult analyzeDecision(DecisionAnalysisRequest request) {
-        String prompt = """
-                You analyze a personal decision and return JSON only that matches the schema.
-                Return all user-facing strings in %s.
-                Keep confidence as one of these exact values only: High, Medium, Low.
-
-                Decision payload:
-                %s
-                """.formatted(languageName(request.locale()), writeValue(request));
+        String prompt = DecisionPrompts.decisionAnalysisPrompt(request, writeValue(request));
 
         return callJson(prompt, decisionAnalysisSchema(), DecisionAnalysisResult.class);
     }
@@ -243,11 +229,6 @@ public class GeminiDecisionService implements AiDecisionService {
             throw new AiIntegrationException("Decision payload could not be serialized.", exception);
         }
     }
-
-    private String languageName(String locale) {
-        return "pl".equalsIgnoreCase(locale) ? "Polish" : "English";
-    }
-
     private String resolveBaseUrl(AiProperties properties) {
         String configured = properties.baseUrl();
         if (configured != null && !configured.isBlank()) {
