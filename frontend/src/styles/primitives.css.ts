@@ -1,5 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { media, vars } from "./theme.css";
+import * as typography from "./typography.css";
 
 export const panel = style({
   background: vars.color.panel,
@@ -17,21 +18,11 @@ export const softCard = style({
   border: `1px solid ${vars.color.line}`
 });
 
-export const sectionLabel = style({
-  color: vars.color.accentDeep,
-  textTransform: "uppercase",
-  letterSpacing: "0.12em",
-  fontSize: vars.text.xs,
-  fontWeight: 700
-});
+export const sectionLabel = typography.eyebrow;
 
 export const eyebrow = sectionLabel;
 
-export const bodyCopy = style({
-  color: vars.color.muted,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body
-});
+export const bodyCopy = style([typography.bodyMd, typography.muted]);
 
 export const inputLabel = style({
   fontSize: vars.text.sm,
@@ -66,11 +57,7 @@ export const textareaInput = style([
   }
 ]);
 
-export const helperCopy = style({
-  color: vars.color.muted,
-  fontSize: vars.text.sm,
-  lineHeight: vars.lineHeight.compact
-});
+export const helperCopy = style([typography.bodySm, typography.muted]);
 
 const buttonBase = style({
   border: "1px solid transparent",

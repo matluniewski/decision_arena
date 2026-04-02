@@ -1,6 +1,7 @@
 import { style, styleVariants } from "@vanilla-extract/css";
 import { media, vars } from "../../../styles/theme.css";
 import { metricPill, softCard } from "../../../styles/primitives.css";
+import * as typography from "../../../styles/typography.css";
 
 export const replayLayout = style({
   display: "grid",
@@ -167,12 +168,7 @@ export const sectionHeader = style({
   maxWidth: "62ch"
 });
 
-export const sectionDescription = style({
-  color: vars.color.muted,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body,
-  margin: 0
-});
+export const sectionDescription = style([typography.bodyMd, typography.muted]);
 
 export const introPanel = style({
   background: "linear-gradient(145deg, rgba(255, 107, 44, 0.14), rgba(15, 139, 141, 0.14))"
@@ -195,29 +191,29 @@ export const introLead = style({
   gap: vars.space.sm
 });
 
-export const introTitle = style({
-  fontFamily: vars.font.display,
-  fontSize: "clamp(2rem, 4vw, 3.25rem)",
-  lineHeight: vars.lineHeight.tight,
-  margin: 0,
-  maxWidth: "14ch"
-});
+export const introTitle = style([
+  typography.displayLg,
+  {
+    fontSize: "clamp(2rem, 4vw, 3.25rem)",
+    maxWidth: "14ch"
+  }
+]);
 
-export const introQuestion = style({
-  fontFamily: vars.font.display,
-  fontSize: "clamp(1.6rem, 3vw, 2.3rem)",
-  lineHeight: vars.lineHeight.tight,
-  margin: 0,
-  maxWidth: "18ch"
-});
+export const introQuestion = style([
+  typography.displayMd,
+  {
+    fontSize: "clamp(1.6rem, 3vw, 2.3rem)",
+    maxWidth: "18ch"
+  }
+]);
 
-export const introCopy = style({
-  margin: 0,
-  fontSize: vars.text.lg,
-  lineHeight: vars.lineHeight.body,
-  color: vars.color.text,
-  maxWidth: "58ch"
-});
+export const introCopy = style([
+  typography.bodyLg,
+  {
+    color: vars.color.text,
+    maxWidth: "58ch"
+  }
+]);
 
 export const introMeta = style({
   display: "flex",
@@ -273,19 +269,14 @@ export const spotlightLabel = style({
   gap: vars.space.xxs
 });
 
-export const spotlightTitle = style({
-  margin: 0,
-  fontFamily: vars.font.display,
-  fontSize: vars.text.displaySm,
-  lineHeight: vars.lineHeight.tight
-});
+export const spotlightTitle = typography.displaySm;
 
-export const spotlightSummary = style({
-  margin: 0,
-  color: vars.color.text,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body
-});
+export const spotlightSummary = style([
+  typography.bodyMd,
+  {
+    color: vars.color.text
+  }
+]);
 
 export const scorePill = style([
   metricPill,
@@ -330,11 +321,7 @@ export const summaryValue = style({
   lineHeight: vars.lineHeight.tight
 });
 
-export const summaryMeta = style({
-  color: vars.color.muted,
-  fontSize: vars.text.sm,
-  lineHeight: vars.lineHeight.compact
-});
+export const summaryMeta = style([typography.bodySm, typography.muted]);
 
 export const whyGrid = style({
   display: "grid",
@@ -466,17 +453,9 @@ export const scoreRowCopy = style({
   gap: vars.space.xxs
 });
 
-export const scoreRowTitle = style({
-  fontSize: vars.text.lg,
-  margin: 0
-});
+export const scoreRowTitle = typography.headingLg;
 
-export const scoreSummary = style({
-  color: vars.color.muted,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body,
-  margin: 0
-});
+export const scoreSummary = style([typography.bodyMd, typography.muted]);
 
 export const scoreRowAside = style({
   display: "grid",
@@ -599,12 +578,12 @@ export const detailIntro = style({
   gap: vars.space.xxs
 });
 
-export const detailIntroCopy = style({
-  margin: 0,
-  color: vars.color.text,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body
-});
+export const detailIntroCopy = style([
+  typography.bodyMd,
+  {
+    color: vars.color.text
+  }
+]);
 
 export const listGrid = style({
   display: "grid",
@@ -657,11 +636,12 @@ export const riskCallout = style([
   }
 ]);
 
-export const riskCalloutText = style({
-  margin: 0,
-  color: vars.color.text,
-  lineHeight: vars.lineHeight.body
-});
+export const riskCalloutText = style([
+  typography.bodyMd,
+  {
+    color: vars.color.text
+  }
+]);
 
 export const criteriaSection = style({
   display: "grid",
@@ -813,13 +793,13 @@ export const verdictText = style({
   maxWidth: "28ch"
 });
 
-export const verdictSupport = style({
-  margin: 0,
-  color: vars.color.muted,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body,
-  maxWidth: "56ch"
-});
+export const verdictSupport = style([
+  typography.bodyMd,
+  typography.muted,
+  {
+    maxWidth: "56ch"
+  }
+]);
 
 export const finalActions = style({
   display: "flex",

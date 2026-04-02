@@ -1,6 +1,7 @@
 import { keyframes, style, styleVariants } from "@vanilla-extract/css";
 import { media, vars } from "../../../styles/theme.css";
 import { panel } from "../../../styles/primitives.css";
+import * as typography from "../../../styles/typography.css";
 
 const floatIn = keyframes({
   from: { opacity: 0, transform: "translateY(18px) scale(0.98)" },
@@ -135,11 +136,7 @@ export const heroPreviewTitle = style({
   lineHeight: vars.lineHeight.tight
 });
 
-export const previewBody = style({
-  color: vars.color.muted,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body
-});
+export const previewBody = style([typography.bodyMd, typography.muted]);
 
 export const heroHighlightRow = style({
   display: "flex",
@@ -485,16 +482,18 @@ export const exampleCardOffset = styleVariants({
   3: { transform: "translateY(18px)", "@media": { [media.tablet]: { transform: "none" } } }
 });
 
-export const exampleCardTitle = style({
-  position: "relative",
-  zIndex: 1,
-  marginTop: "auto",
-  fontFamily: vars.font.display,
-  fontSize: "1.4rem",
-  lineHeight: 1.08,
-  maxWidth: "12ch",
-  paddingTop: "20px"
-});
+export const exampleCardTitle = style([
+  typography.headingLg,
+  {
+    position: "relative",
+    zIndex: 1,
+    marginTop: "auto",
+    fontSize: "1.4rem",
+    lineHeight: 1.08,
+    maxWidth: "12ch",
+    paddingTop: "20px"
+  }
+]);
 
 export const exampleCardIndex = style({
   position: "absolute",
@@ -529,12 +528,12 @@ export const storyHeader = style({
   }
 });
 
-export const storyTitle = style({
-  fontFamily: vars.font.display,
-  fontSize: vars.text.displayLg,
-  lineHeight: vars.lineHeight.display,
-  maxWidth: "12ch"
-});
+export const storyTitle = style([
+  typography.displayLg,
+  {
+    maxWidth: "12ch"
+  }
+]);
 
 export const storyOrbit = style({
   position: "relative",
@@ -600,17 +599,14 @@ export const processCardOffset = styleVariants({
   3: { marginLeft: "112px", "@media": { [media.tablet]: { marginLeft: 0 } } }
 });
 
-export const processCardTitle = style({
-  fontFamily: vars.font.display,
-  fontSize: vars.text.displaySm,
-  lineHeight: 1.08
-});
+export const processCardTitle = style([
+  typography.displaySm,
+  {
+    lineHeight: "1.08"
+  }
+]);
 
-export const processCardBody = style({
-  color: vars.color.muted,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body
-});
+export const processCardBody = style([typography.bodyMd, typography.muted]);
 
 export const processStepIndex = style({
   position: "absolute",
@@ -695,14 +691,16 @@ export const comparisonEyebrow = style({
   border: "1px solid rgba(255, 255, 255, 0.12)"
 });
 
-export const comparisonCardTitle = style({
-  position: "relative",
-  zIndex: 1,
-  fontFamily: vars.font.display,
-  fontSize: "clamp(1.7rem, 3vw, 2rem)",
-  lineHeight: 1,
-  maxWidth: "10ch"
-});
+export const comparisonCardTitle = style([
+  typography.displayMd,
+  {
+    position: "relative",
+    zIndex: 1,
+    fontSize: "clamp(1.7rem, 3vw, 2rem)",
+    lineHeight: "1",
+    maxWidth: "10ch"
+  }
+]);
 
 export const comparisonDivider = style({
   position: "relative",
@@ -836,11 +834,12 @@ export const useCaseIndex = style({
   color: "rgba(31, 36, 33, 0.2)"
 });
 
-export const useCaseText = style({
-  fontFamily: vars.font.display,
-  fontSize: vars.text.xl,
-  lineHeight: 1.18
-});
+export const useCaseText = style([
+  typography.headingLg,
+  {
+    lineHeight: "1.18"
+  }
+]);
 
 export const ctaBand = style([
   panel,
@@ -868,18 +867,14 @@ export const ctaCopy = style({
   maxWidth: "720px"
 });
 
-export const ctaTitle = style({
-  fontFamily: vars.font.display,
-  fontSize: vars.text.displayLg,
-  lineHeight: vars.lineHeight.display,
-  maxWidth: "12ch"
-});
+export const ctaTitle = style([
+  typography.displayLg,
+  {
+    maxWidth: "12ch"
+  }
+]);
 
-export const ctaBody = style({
-  color: vars.color.muted,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body
-});
+export const ctaBody = style([typography.bodyMd, typography.muted]);
 
 export const ctaActions = style({
   display: "grid",

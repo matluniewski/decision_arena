@@ -1,5 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { media, vars } from "../../../styles/theme.css";
+import * as typography from "../../../styles/typography.css";
 
 export const pageShell = style({
   width: `min(${vars.size.content}, calc(100% - 32px))`,
@@ -40,13 +41,7 @@ export const brand = style({
   letterSpacing: "0.04em"
 });
 
-export const topbarBadge = style({
-  color: vars.color.accentDeep,
-  textTransform: "uppercase",
-  letterSpacing: "0.12em",
-  fontSize: vars.text.xs,
-  fontWeight: 700
-});
+export const topbarBadge = typography.eyebrow;
 
 export const languageSwitch = style({
   display: "inline-flex",
@@ -91,24 +86,25 @@ export const heroContent = style({
   gap: "12px"
 });
 
-export const heroTitle = style({
-  fontFamily: vars.font.display,
-  fontSize: vars.text.hero,
-  lineHeight: vars.lineHeight.tight,
+export const heroTitle = style([
+  typography.displayHero,
+  {
   maxWidth: "12ch",
   "@media": {
     [media.mobile]: {
       maxWidth: "none"
     }
   }
-});
+}
+]);
 
-export const heroCopy = style({
-  color: vars.color.muted,
-  fontSize: vars.text.lg,
-  lineHeight: vars.lineHeight.body,
+export const heroCopy = style([
+  typography.bodyLg,
+  typography.muted,
+  {
   maxWidth: "58ch"
-});
+}
+]);
 
 export const heroAside = style({
   position: "relative"

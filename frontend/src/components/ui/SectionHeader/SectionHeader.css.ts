@@ -1,5 +1,6 @@
 import { style } from "@vanilla-extract/css";
 import { vars } from "../../../styles/theme.css";
+import * as typography from "../../../styles/typography.css";
 
 export const root = style({
   display: "grid",
@@ -7,16 +8,6 @@ export const root = style({
   maxWidth: "62ch"
 });
 
-export const title = style({
-  margin: 0,
-  fontFamily: vars.font.display,
-  fontSize: vars.text.displaySm,
-  lineHeight: vars.lineHeight.tight
-});
+export const title = style([typography.displaySm]);
 
-export const description = style({
-  margin: 0,
-  color: vars.color.muted,
-  fontSize: vars.text.md,
-  lineHeight: vars.lineHeight.body
-});
+export const description = style([typography.bodyMd, typography.muted]);
