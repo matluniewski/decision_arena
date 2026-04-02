@@ -281,10 +281,15 @@ export const spotlightSummary = style([
 export const scorePill = style([
   metricPill,
   {
-    fontFamily: vars.font.display,
-    fontSize: vars.text.xl
+    justifyItems: "center"
   }
 ]);
+
+export const scorePillValue = style({
+  fontFamily: vars.font.display,
+  fontSize: vars.text.xl,
+  lineHeight: vars.lineHeight.tight
+});
 
 export const spotlightStats = style({
   display: "grid",
@@ -475,7 +480,8 @@ export const scoreBadge = style({
 
 export const scoreBadgeValue = style({
   fontFamily: vars.font.display,
-  fontSize: vars.text.xl
+  fontSize: vars.text.xl,
+  lineHeight: vars.lineHeight.tight
 });
 
 export const scoreTrack = style({

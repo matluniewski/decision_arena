@@ -7,6 +7,7 @@ import { useI18n } from "../../../i18n/I18nProvider";
 import { cx } from "../../../lib/cx";
 import * as primitives from "../../../styles/primitives.css";
 import { media } from "../../../styles/theme.css";
+import { ScoreBadge } from "../../ui/ScoreBadge";
 import { SectionHeader } from "../../ui/SectionHeader";
 import * as styles from "./ResultReplayView.css";
 
@@ -319,10 +320,11 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
                   <span className={primitives.sectionLabel}>{replayCopy.spotlightLabel}</span>
                   <h3 className={styles.spotlightTitle}>{winner.optionLabel}</h3>
                 </div>
-                <div className={styles.scorePill}>
-                  {winner.weightedScore}
-                  {messages.resultView.scoreOutOf}
-                </div>
+                <ScoreBadge
+                  value={`${winner.weightedScore}${messages.resultView.scoreOutOf}`}
+                  className={styles.scorePill}
+                  valueClassName={styles.scorePillValue}
+                />
               </div>
               <p className={styles.spotlightSummary}>{winner.summary}</p>
             </div>
@@ -439,10 +441,7 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
                 </div>
 
                 <div className={styles.scoreRowAside}>
-                  <div className={styles.scoreBadge}>
-                    <span className={styles.scoreBadgeValue}>{option.weightedScore}</span>
-                    <small>{bandLabel(option.weightedScore)}</small>
-                  </div>
+                  <ScoreBadge value={option.weightedScore} caption={bandLabel(option.weightedScore)} />
                   <div className={styles.scoreTrack} aria-hidden="true">
                     <span
                       className={styles.scoreTrackFill}
@@ -495,10 +494,11 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
                       <p className={styles.accordionMeta}>{replayCopy.quickCounts(option)}</p>
                     </div>
                     <div className={styles.scoreBadge}>
-                      <span className={styles.scoreBadgeValue}>
-                        {option.weightedScore}
-                        {messages.resultView.scoreOutOf}
-                      </span>
+                      <ScoreBadge
+                        value={`${option.weightedScore}${messages.resultView.scoreOutOf}`}
+                        className={styles.scoreBadge}
+                        valueClassName={styles.scoreBadgeValue}
+                      />
                       <span className={styles.accordionChevron}>{expanded ? "-" : "+"}</span>
                     </div>
                   </button>

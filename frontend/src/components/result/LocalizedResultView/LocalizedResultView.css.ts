@@ -69,22 +69,6 @@ export const scoreSummary = style({
   marginTop: "6px"
 });
 
-export const scoreBadge = style({
-  display: "grid",
-  justifyItems: "end",
-  gap: "2px",
-  "@media": {
-    [media.mobile]: {
-      justifyItems: "start"
-    }
-  }
-});
-
-export const scoreBadgeValue = style({
-  fontFamily: vars.font.display,
-  fontSize: vars.text.xl
-});
-
 export const comparisonPanel = style({
   display: "grid",
   gap: "18px"
@@ -115,10 +99,15 @@ export const optionTitle = style({
 export const scorePill = style([
   metricPill,
   {
-    fontFamily: vars.font.display,
-    fontSize: vars.text.xl
+    justifyItems: "center"
   }
 ]);
+
+export const scorePillValue = style({
+  fontFamily: vars.font.display,
+  fontSize: vars.text.xl,
+  lineHeight: vars.lineHeight.tight
+});
 
 export const note = style({
   color: vars.color.muted,

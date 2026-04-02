@@ -3,6 +3,7 @@
 import type { AnalysisResponse } from "../../../lib/types";
 import { useI18n } from "../../../i18n/I18nProvider";
 import { cx } from "../../../lib/cx";
+import { ScoreBadge } from "../../ui/ScoreBadge";
 import { SectionHeader } from "../../ui/SectionHeader";
 import * as primitives from "../../../styles/primitives.css";
 import * as styles from "./LocalizedResultView.css";
@@ -61,10 +62,7 @@ export function LocalizedResultView({ result }: LocalizedResultViewProps) {
                 <strong>{option.optionLabel}</strong>
                 <p className={styles.scoreSummary}>{option.summary}</p>
               </div>
-              <div className={styles.scoreBadge}>
-                <span className={styles.scoreBadgeValue}>{option.weightedScore}</span>
-                <small>{bandLabel(option.weightedScore)}</small>
-              </div>
+              <ScoreBadge value={option.weightedScore} caption={bandLabel(option.weightedScore)} />
             </div>
           ))}
         </div>
@@ -77,7 +75,11 @@ export function LocalizedResultView({ result }: LocalizedResultViewProps) {
             <article key={option.optionLabel} className={styles.optionCard}>
               <div className={styles.optionCardHead}>
                 <h3 className={styles.optionTitle}>{option.optionLabel}</h3>
-                <div className={styles.scorePill}>{option.weightedScore}/100</div>
+                <ScoreBadge
+                  value={`${option.weightedScore}/100`}
+                  className={styles.scorePill}
+                  valueClassName={styles.scorePillValue}
+                />
               </div>
               {option.note ? <p className={styles.note}>{option.note}</p> : null}
 
