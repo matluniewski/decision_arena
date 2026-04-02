@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createAnalysis, getDraft } from "../../../lib/api";
-import type { CriterionInput, DecisionOptionInput } from "../../../lib/types";
+import type { CriterionInput, DecisionOptionInput, DraftResponse } from "../../../lib/types";
 import { AppShell } from "../../../components/layout/AppShell/AppShell";
 import { StatePanel } from "../../../components/ui/StatePanel";
 import { useI18n } from "../../../i18n/I18nProvider";
@@ -14,15 +14,18 @@ import * as styles from "./BuildPage.css";
 
 type BuildPageProps = {
   draftId: string;
+  initialDraft?: DraftResponse | null;
+  initialErrorMessage?: string | null;
 };
 
-export function BuildPage({ draftId }: BuildPageProps) {
+export function BuildPage({ draftId, initialDraft = null, initialErrorMessage = null }: BuildPageProps) {
   const router = useRouter();
   const { locale, messages } = useI18n();
   const { data, isLoading, error } = useQuery({
     queryKey: ["draft", draftId],
     queryFn: () => getDraft(draftId),
-    enabled: Boolean(draftId)
+    enabled: Boolean(draftId) && !initialDraft,
+    initialData: initialDraft ?? undefined
   });
 
   const [options, setOptions] = useState<DecisionOptionInput[]>([]);
@@ -55,10 +58,13 @@ export function BuildPage({ draftId }: BuildPageProps) {
     );
   }
 
-  if (error || !data) {
+  if (error || initialErrorMessage || !data) {
     return (
       <AppShell eyebrow={messages.build.stepEyebrow} title={messages.build.unavailableTitle} description={messages.build.unavailableDescription}>
-        <StatePanel tone="error" message={error instanceof Error ? error.message : messages.build.draftNotFound} />
+        <StatePanel
+          tone="error"
+          message={initialErrorMessage ?? (error instanceof Error ? error.message : messages.build.draftNotFound)}
+        />
       </AppShell>
     );
   }

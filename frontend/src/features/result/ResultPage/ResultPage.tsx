@@ -6,6 +6,7 @@ import { AppShell } from "../../../components/layout/AppShell/AppShell";
 import { ResultReplayView } from "../../../components/result/ResultReplayView/ResultReplayView";
 import { StatePanel } from "../../../components/ui/StatePanel";
 import { getResult } from "../../../lib/api";
+import type { AnalysisResponse } from "../../../lib/types";
 import { useI18n } from "../../../i18n/I18nProvider";
 import { cx } from "../../../lib/cx";
 import * as primitives from "../../../styles/primitives.css";
@@ -13,14 +14,17 @@ import * as styles from "./ResultPage.css";
 
 type ResultPageProps = {
   shareSlug: string;
+  initialResult?: AnalysisResponse | null;
+  initialErrorMessage?: string | null;
 };
 
-export function ResultPage({ shareSlug }: ResultPageProps) {
+export function ResultPage({ shareSlug, initialResult = null, initialErrorMessage = null }: ResultPageProps) {
   const { locale, messages } = useI18n();
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["result", shareSlug],
     queryFn: () => getResult(shareSlug),
-    enabled: Boolean(shareSlug)
+    enabled: Boolean(shareSlug) && !initialResult,
+    initialData: initialResult ?? undefined
   });
   const [showWakeupHint, setShowWakeupHint] = useState(false);
 
@@ -69,11 +73,11 @@ export function ResultPage({ shareSlug }: ResultPageProps) {
           hint={showWakeupHint ? loadingHint : undefined}
         />
       ) : null}
-      {error ? (
+      {error || initialErrorMessage ? (
         <StatePanel
           className={styles.loadingPanel}
           tone="error"
-          message={error instanceof Error ? error.message : messages.resultPage.resultLoadError}
+          message={initialErrorMessage ?? (error instanceof Error ? error.message : messages.resultPage.resultLoadError)}
           action={
             <button className={primitives.secondaryButton} onClick={() => void refetch()} type="button">
               {retryLabel}
