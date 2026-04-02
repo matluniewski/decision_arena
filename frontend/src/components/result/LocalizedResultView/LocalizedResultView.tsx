@@ -3,6 +3,7 @@
 import type { AnalysisResponse } from "../../../lib/types";
 import { useI18n } from "../../../i18n/I18nProvider";
 import { cx } from "../../../lib/cx";
+import { SectionHeader } from "../../ui/SectionHeader";
 import * as primitives from "../../../styles/primitives.css";
 import * as styles from "./LocalizedResultView.css";
 
@@ -52,9 +53,7 @@ export function LocalizedResultView({ result }: LocalizedResultViewProps) {
       </section>
 
       <section className={primitives.panel}>
-        <div className={styles.panelHeader}>
-          <span className={primitives.sectionLabel}>{messages.resultView.scoreboard}</span>
-        </div>
+        <SectionHeader className={styles.sectionHeader} label={messages.resultView.scoreboard} />
         <div className={styles.scoreboard}>
           {sortedOptions.map((option) => (
             <div key={option.optionLabel} className={styles.scoreRow}>
@@ -72,9 +71,7 @@ export function LocalizedResultView({ result }: LocalizedResultViewProps) {
       </section>
 
       <section className={cx(primitives.panel, styles.comparisonPanel)}>
-        <div className={styles.panelHeader}>
-          <span className={primitives.sectionLabel}>{messages.resultView.comparison}</span>
-        </div>
+        <SectionHeader className={styles.sectionHeader} label={messages.resultView.comparison} />
         <div className={styles.optionGrid}>
           {sortedOptions.map((option) => (
             <article key={option.optionLabel} className={styles.optionCard}>
@@ -131,9 +128,7 @@ export function LocalizedResultView({ result }: LocalizedResultViewProps) {
       </section>
 
       <section className={primitives.panel}>
-        <div className={styles.panelHeader}>
-          <span className={primitives.sectionLabel}>{messages.resultView.unknowns}</span>
-        </div>
+        <SectionHeader className={styles.sectionHeader} label={messages.resultView.unknowns} />
         <ul className={styles.unknownList}>
           {result.unknowns.map((unknown) => (
             <li key={unknown}>{unknown}</li>

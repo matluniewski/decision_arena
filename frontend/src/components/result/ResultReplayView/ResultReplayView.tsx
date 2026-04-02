@@ -7,6 +7,7 @@ import { useI18n } from "../../../i18n/I18nProvider";
 import { cx } from "../../../lib/cx";
 import * as primitives from "../../../styles/primitives.css";
 import { media } from "../../../styles/theme.css";
+import { SectionHeader } from "../../ui/SectionHeader";
 import * as styles from "./ResultReplayView.css";
 
 type ResultReplayViewProps = {
@@ -338,10 +339,12 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
             isSectionVisible("why") && styles.revealVisible
           )}
         >
-          <div className={styles.sectionHeader}>
-            <span className={primitives.sectionLabel}>{replayCopy.whyTitle}</span>
-            <p className={styles.sectionDescription}>{replayCopy.whyDescription}</p>
-          </div>
+          <SectionHeader
+            className={styles.sectionHeader}
+            label={replayCopy.whyTitle}
+            description={replayCopy.whyDescription}
+            descriptionClassName={styles.sectionDescription}
+          />
 
           <div className={styles.spotlightStats}>
             <article className={styles.summaryCard}>
@@ -417,10 +420,12 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
             isSectionVisible("ranking") && styles.revealVisible
           )}
         >
-          <div className={styles.sectionHeader}>
-            <span className={primitives.sectionLabel}>{replayCopy.rankingTitle}</span>
-            <p className={styles.sectionDescription}>{replayCopy.rankingDescription}</p>
-          </div>
+          <SectionHeader
+            className={styles.sectionHeader}
+            label={replayCopy.rankingTitle}
+            description={replayCopy.rankingDescription}
+            descriptionClassName={styles.sectionDescription}
+          />
 
           <div className={styles.scoreboard}>
             {sortedOptions.map((option, index) => (
@@ -460,10 +465,12 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
             isSectionVisible("details") && styles.revealVisible
           )}
         >
-          <div className={styles.sectionHeader}>
-            <span className={primitives.sectionLabel}>{replayCopy.detailsTitle}</span>
-            <p className={styles.sectionDescription}>{replayCopy.detailsDescription}</p>
-          </div>
+          <SectionHeader
+            className={styles.sectionHeader}
+            label={replayCopy.detailsTitle}
+            description={replayCopy.detailsDescription}
+            descriptionClassName={styles.sectionDescription}
+          />
 
           <div className={styles.detailsStack}>
             {sortedOptions.map((option, index) => {
@@ -588,10 +595,12 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
             isSectionVisible("unknowns") && styles.revealVisible
           )}
         >
-          <div className={styles.sectionHeader}>
-            <span className={primitives.sectionLabel}>{replayCopy.unknownsTitle}</span>
-            <p className={styles.sectionDescription}>{messages.resultView.unknownsDescription}</p>
-          </div>
+          <SectionHeader
+            className={styles.sectionHeader}
+            label={replayCopy.unknownsTitle}
+            description={messages.resultView.unknownsDescription}
+            descriptionClassName={styles.sectionDescription}
+          />
 
           {result.unknowns.length > 0 ? (
             <ul className={styles.unknownGrid}>
@@ -616,10 +625,12 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
             isSectionVisible("verdict") && styles.revealVisible
           )}
         >
-          <div className={styles.sectionHeader}>
-            <span className={primitives.sectionLabel}>{replayCopy.finalTitle}</span>
-            <p className={styles.sectionDescription}>{replayCopy.finalDescription}</p>
-          </div>
+          <SectionHeader
+            className={styles.sectionHeader}
+            label={replayCopy.finalTitle}
+            description={replayCopy.finalDescription}
+            descriptionClassName={styles.sectionDescription}
+          />
 
           <div className={styles.verdictCallout}>
             <p className={styles.verdictText}>{result.verdict}</p>

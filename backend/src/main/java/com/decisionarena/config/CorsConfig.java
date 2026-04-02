@@ -16,7 +16,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 List<String> allowedOrigins = corsProperties.allowedOrigins() == null
-                        ? List.of("http://localhost:5173")
+                        ? List.of("http://localhost:3000", "http://localhost:5173")
                         : corsProperties.allowedOrigins();
                 registry.addMapping("/api/**")
                         .allowedOrigins(allowedOrigins.toArray(String[]::new))

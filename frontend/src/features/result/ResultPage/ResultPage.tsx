@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { AppShell } from "../../../components/layout/AppShell/AppShell";
 import { ResultReplayView } from "../../../components/result/ResultReplayView/ResultReplayView";
+import { StatePanel } from "../../../components/ui/StatePanel";
 import { getResult } from "../../../lib/api";
 import { useI18n } from "../../../i18n/I18nProvider";
 import { cx } from "../../../lib/cx";
@@ -61,19 +62,24 @@ export function ResultPage({ shareSlug }: ResultPageProps) {
       </section>
 
       {isLoading ? (
-        <section className={cx(primitives.panel, styles.loadingPanel)}>
-          <span className={primitives.sectionLabel}>{messages.resultPage.loadingResult}</span>
-          <p className={primitives.bodyCopy}>{messages.resultPage.shareDescription}</p>
-          {showWakeupHint ? <p className={styles.loadingHint}>{loadingHint}</p> : null}
-        </section>
+        <StatePanel
+          className={styles.loadingPanel}
+          label={messages.resultPage.loadingResult}
+          message={messages.resultPage.shareDescription}
+          hint={showWakeupHint ? loadingHint : undefined}
+        />
       ) : null}
       {error ? (
-        <section className={cx(primitives.panel, styles.loadingPanel)}>
-          <p className={primitives.errorBanner}>{error instanceof Error ? error.message : messages.resultPage.resultLoadError}</p>
-          <button className={primitives.secondaryButton} onClick={() => void refetch()} type="button">
-            {retryLabel}
-          </button>
-        </section>
+        <StatePanel
+          className={styles.loadingPanel}
+          tone="error"
+          message={error instanceof Error ? error.message : messages.resultPage.resultLoadError}
+          action={
+            <button className={primitives.secondaryButton} onClick={() => void refetch()} type="button">
+              {retryLabel}
+            </button>
+          }
+        />
       ) : null}
       {data ? <ResultReplayView result={data} /> : null}
     </AppShell>

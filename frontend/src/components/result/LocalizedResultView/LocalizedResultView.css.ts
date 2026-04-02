@@ -45,6 +45,10 @@ export const confidenceTone = styleVariants({
 
 export const winnerChip = metricPill;
 export const panelHeader = headerRow;
+export const sectionHeader = style({
+  display: "grid",
+  gap: vars.space.xs
+});
 
 export const scoreboard = style({
   display: "grid",
