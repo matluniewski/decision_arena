@@ -16,7 +16,7 @@ public record CreateAnalysisRequest(
         @Valid
         @Size(min = 4, max = 6)
         List<CriterionInputDto> criteria,
-        @Size(max = 400)
+        @Size(max = 400, message = "Extra context must be 400 characters or fewer.")
         String userContext,
         @Pattern(regexp = "pl|en", message = "Locale must be 'pl' or 'en'.")
         String locale

@@ -6,6 +6,8 @@ backend/target/
 .env.local
 .env.*.local
 *.log
+*-payload.json
+*-response.json
 .DS_Store
 .m2repo/
 tools/

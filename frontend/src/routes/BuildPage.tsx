@@ -83,6 +83,7 @@ export function BuildPage() {
           <textarea
             id="context"
             className={primitives.textareaInput}
+            maxLength={400}
             value={userContext}
             onChange={(event) => setUserContext(event.target.value)}
             placeholder={messages.build.extraContextPlaceholder}
@@ -103,6 +104,7 @@ export function BuildPage() {
                 <label className={primitives.inputLabel}>{messages.build.optionLabel(index + 1)}</label>
                 <input
                   className={primitives.textInput}
+                  maxLength={80}
                   value={option.label}
                   onChange={(event) =>
                     setOptions((current) =>
@@ -115,6 +117,7 @@ export function BuildPage() {
                 <label className={primitives.inputLabel}>{messages.build.optionalNote}</label>
                 <textarea
                   className={primitives.textareaInput}
+                  maxLength={160}
                   value={option.note}
                   onChange={(event) =>
                     setOptions((current) =>
@@ -138,6 +141,7 @@ export function BuildPage() {
               <div key={`criterion-${index}`} className={styles.criterionEditorRow}>
                 <input
                   className={primitives.textInput}
+                  maxLength={100}
                   value={criterion.label}
                   onChange={(event) =>
                     setCriteria((current) =>

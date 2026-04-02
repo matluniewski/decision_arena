@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { createDraft } from "../lib/api";
@@ -70,7 +70,8 @@ export function LandingPage() {
   useEffect(() => {
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
 
-    if (!revealTargets.length) {
+    if (!revealTargets.length || typeof IntersectionObserver === "undefined") {
+      revealTargets.forEach((target) => target.setAttribute("data-visible", "true"));
       return undefined;
     }
 

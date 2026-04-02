@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { AppShell } from "../components/AppShell";
-import { LocalizedResultView } from "../components/LocalizedResultView";
+import { ResultReplayView } from "../components/ResultReplayView";
 import { getResult } from "../lib/api";
 import { useI18n } from "../i18n/I18nProvider";
 import { cx } from "../lib/cx";
@@ -39,7 +39,7 @@ export function ResultPage() {
 
       {isLoading ? <section className={primitives.panel}>{messages.resultPage.loadingResult}</section> : null}
       {error ? <section className={primitives.panel}><p className={primitives.errorBanner}>{error instanceof Error ? error.message : messages.resultPage.resultLoadError}</p></section> : null}
-      {data ? <LocalizedResultView result={data} /> : null}
+      {data ? <ResultReplayView result={data} /> : null}
     </AppShell>
   );
 }
