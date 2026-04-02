@@ -15,6 +15,7 @@ type TranslationSet = {
     questionLabel: string;
     placeholder: string;
     characters: (current: number, max: number) => string;
+    clearField: string;
     buildingDraft: string;
     startAnalysis: string;
     examplePromptLabel: string;
@@ -39,8 +40,15 @@ type TranslationSet = {
     options: string;
     optionLabel: (index: number) => string;
     optionalNote: string;
+    addOption: string;
+    removeOption: string;
+    optionsCount: (count: number, max: number) => string;
     criteria: string;
     weight: string;
+    addCriterion: string;
+    removeCriterion: string;
+    criteriaCount: (count: number, max: number) => string;
+    clearField: string;
   };
   resultPage: {
     eyebrow: string;
@@ -96,6 +104,7 @@ export const messages: Record<Locale, TranslationSet> = {
       questionLabel: "Jaką decyzję próbujesz teraz podjąć?",
       placeholder: "Czy jechać w tę podróż, kupić tę rzecz, przeprowadzić się, zostać, czy jeszcze poczekać?",
       characters: (current, max) => `${current}/${max} znaków`,
+      clearField: "Wyczyść pole",
       buildingDraft: "Budowanie szkicu...",
       startAnalysis: "Rozpocznij analizę",
       examplePromptLabel: "Przykładowy prompt",
@@ -126,8 +135,15 @@ export const messages: Record<Locale, TranslationSet> = {
       options: "Opcje",
       optionLabel: (index) => `Opcja ${index}`,
       optionalNote: "Opcjonalna notatka",
+      addOption: "Dodaj opcję",
+      removeOption: "Usuń opcję",
+      optionsCount: (count, max) => `${count}/${max} opcji`,
       criteria: "Kryteria",
-      weight: "Waga"
+      weight: "Waga",
+      addCriterion: "Dodaj kryterium",
+      removeCriterion: "Usuń kryterium",
+      criteriaCount: (count, max) => `${count}/${max} kryteriów`,
+      clearField: "Wyczyść pole"
     },
     resultPage: {
       eyebrow: "Krok 3",
@@ -182,6 +198,7 @@ export const messages: Record<Locale, TranslationSet> = {
       questionLabel: "What decision are you trying to make?",
       placeholder: "Should I go on this trip, buy this thing, move, stay, or wait?",
       characters: (current, max) => `${current}/${max} characters`,
+      clearField: "Clear field",
       buildingDraft: "Building draft...",
       startAnalysis: "Start analysis",
       examplePromptLabel: "Example prompt",
@@ -212,8 +229,15 @@ export const messages: Record<Locale, TranslationSet> = {
       options: "Options",
       optionLabel: (index) => `Option ${index}`,
       optionalNote: "Optional note",
+      addOption: "Add option",
+      removeOption: "Remove option",
+      optionsCount: (count, max) => `${count}/${max} options`,
       criteria: "Criteria",
-      weight: "Weight"
+      weight: "Weight",
+      addCriterion: "Add criterion",
+      removeCriterion: "Remove criterion",
+      criteriaCount: (count, max) => `${count}/${max} criteria`,
+      clearField: "Clear field"
     },
     resultPage: {
       eyebrow: "Step 3",

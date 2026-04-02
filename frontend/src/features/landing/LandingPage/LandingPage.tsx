@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { createDraft } from "../../../lib/api";
 import { AppShell } from "../../../components/layout/AppShell/AppShell";
+import { Textarea } from "../../../components/ui/Field";
 import { useI18n } from "../../../i18n/I18nProvider";
 import { landingContent } from "../../../i18n/landingContent";
 import { cx } from "../../../lib/cx";
@@ -192,9 +193,10 @@ export function LandingPage() {
             <label className={primitives.inputLabel} htmlFor="question">
               {messages.landing.questionLabel}
             </label>
-            <textarea
+            <Textarea
               id="question"
-              className={primitives.textareaInput}
+              clearLabel={messages.landing.clearField}
+              onClear={() => setQuestion("")}
               value={question}
               maxLength={280}
               onChange={(event) => setQuestion(event.target.value)}
