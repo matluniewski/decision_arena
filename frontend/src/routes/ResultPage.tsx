@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { AppShell } from "../components/AppShell";
@@ -9,13 +10,31 @@ import * as primitives from "../styles/primitives.css";
 import * as styles from "./ResultPage.css";
 
 export function ResultPage() {
-  const { messages } = useI18n();
+  const { locale, messages } = useI18n();
   const { shareSlug = "" } = useParams();
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["result", shareSlug],
     queryFn: () => getResult(shareSlug),
     enabled: Boolean(shareSlug)
   });
+  const [showWakeupHint, setShowWakeupHint] = useState(false);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setShowWakeupHint(false);
+      return undefined;
+    }
+
+    const timer = window.setTimeout(() => setShowWakeupHint(true), 7000);
+    return () => window.clearTimeout(timer);
+  }, [isLoading]);
+
+  const loadingHint =
+    locale === "pl"
+      ? "Środowisko developerskie może właśnie wybudzać backend. Przy darmowym hostingu może to potrwać kilkanaście sekund."
+      : "The development environment may be waking the backend up. On free hosting this can take several seconds.";
+
+  const retryLabel = locale === "pl" ? "Spróbuj ponownie" : "Try again";
 
   const copyLink = async () => {
     await navigator.clipboard.writeText(window.location.href);
@@ -37,8 +56,21 @@ export function ResultPage() {
         </button>
       </section>
 
-      {isLoading ? <section className={primitives.panel}>{messages.resultPage.loadingResult}</section> : null}
-      {error ? <section className={primitives.panel}><p className={primitives.errorBanner}>{error instanceof Error ? error.message : messages.resultPage.resultLoadError}</p></section> : null}
+      {isLoading ? (
+        <section className={cx(primitives.panel, styles.loadingPanel)}>
+          <span className={primitives.sectionLabel}>{messages.resultPage.loadingResult}</span>
+          <p className={primitives.bodyCopy}>{messages.resultPage.shareDescription}</p>
+          {showWakeupHint ? <p className={styles.loadingHint}>{loadingHint}</p> : null}
+        </section>
+      ) : null}
+      {error ? (
+        <section className={cx(primitives.panel, styles.loadingPanel)}>
+          <p className={primitives.errorBanner}>{error instanceof Error ? error.message : messages.resultPage.resultLoadError}</p>
+          <button className={primitives.secondaryButton} onClick={() => void refetch()} type="button">
+            {retryLabel}
+          </button>
+        </section>
+      ) : null}
       {data ? <ResultReplayView result={data} /> : null}
     </AppShell>
   );

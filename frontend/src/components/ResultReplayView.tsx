@@ -4,6 +4,7 @@ import type { AnalysisResponse, CriterionScore, OptionAnalysis } from "../lib/ty
 import { useI18n } from "../i18n/I18nProvider";
 import { cx } from "../lib/cx";
 import * as primitives from "../styles/primitives.css";
+import { media } from "../styles/theme.css";
 import * as styles from "./ResultReplayView.css";
 
 type ResultReplayViewProps = {
@@ -37,6 +38,7 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
   const [expandedOption, setExpandedOption] = useState(winner?.optionLabel ?? "");
   const [criteriaOption, setCriteriaOption] = useState("");
   const [activeSection, setActiveSection] = useState("intro");
+  const [visibleSections, setVisibleSections] = useState<string[]>(["intro"]);
 
   if (!winner) {
     return null;
@@ -190,9 +192,54 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
     };
   }, [locale]);
 
+  useEffect(() => {
+    const sectionIds = replayCopy.railSteps.map((step) => step.id);
+
+    if (typeof window === "undefined") {
+      setVisibleSections(sectionIds);
+      return undefined;
+    }
+
+    if (window.matchMedia(media.reducedMotion).matches || typeof IntersectionObserver === "undefined") {
+      setVisibleSections(sectionIds);
+      return undefined;
+    }
+
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => Boolean(section));
+
+    if (!sections.length) {
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const nextVisible = entries
+          .filter((entry) => entry.isIntersecting)
+          .map((entry) => entry.target.id);
+
+        if (!nextVisible.length) {
+          return;
+        }
+
+        setVisibleSections((current) => [...new Set([...current, ...nextVisible])]);
+      },
+      {
+        threshold: 0.18,
+        rootMargin: "0px 0px -10% 0px"
+      }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, [locale]);
+
   const leadingCriteria = topCriteria(winner);
   const leadingPros = winner.pros.slice(0, 2);
   const leadingTradeoff = winner.cons[0] ?? winner.risks[0] ?? winner.summary;
+  const isSectionVisible = (id: string) => visibleSections.includes(id);
 
   const toggleOption = (optionLabel: string) => {
     setExpandedOption((current) => {
@@ -231,7 +278,17 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
       </aside>
 
       <div className={styles.resultGrid}>
-        <section id="intro" className={cx(primitives.panel, styles.replaySection, styles.introPanel)}>
+        <section
+          id="intro"
+          className={cx(
+            primitives.panel,
+            styles.replaySection,
+            styles.introPanel,
+            styles.revealSection,
+            styles.revealDelay.step0,
+            isSectionVisible("intro") && styles.revealVisible
+          )}
+        >
           <div className={styles.introLayout}>
             <div className={styles.introLead}>
               <span className={primitives.sectionLabel}>{replayCopy.introLabel}</span>
@@ -269,7 +326,16 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
           </div>
         </section>
 
-        <section id="why" className={cx(primitives.panel, styles.replaySection)}>
+        <section
+          id="why"
+          className={cx(
+            primitives.panel,
+            styles.replaySection,
+            styles.revealSection,
+            styles.revealDelay.step1,
+            isSectionVisible("why") && styles.revealVisible
+          )}
+        >
           <div className={styles.sectionHeader}>
             <span className={primitives.sectionLabel}>{replayCopy.whyTitle}</span>
             <p className={styles.sectionDescription}>{replayCopy.whyDescription}</p>
@@ -339,7 +405,16 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
           </div>
         </section>
 
-        <section id="ranking" className={cx(primitives.panel, styles.replaySection)}>
+        <section
+          id="ranking"
+          className={cx(
+            primitives.panel,
+            styles.replaySection,
+            styles.revealSection,
+            styles.revealDelay.step2,
+            isSectionVisible("ranking") && styles.revealVisible
+          )}
+        >
           <div className={styles.sectionHeader}>
             <span className={primitives.sectionLabel}>{replayCopy.rankingTitle}</span>
             <p className={styles.sectionDescription}>{replayCopy.rankingDescription}</p>
@@ -362,7 +437,10 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
                     <small>{bandLabel(option.weightedScore)}</small>
                   </div>
                   <div className={styles.scoreTrack} aria-hidden="true">
-                    <span className={styles.scoreTrackFill} style={{ width: `${option.weightedScore}%` }} />
+                    <span
+                      className={styles.scoreTrackFill}
+                      style={{ width: isSectionVisible("ranking") ? `${option.weightedScore}%` : "0%" }}
+                    />
                   </div>
                 </div>
               </div>
@@ -370,7 +448,16 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
           </div>
         </section>
 
-        <section id="details" className={cx(primitives.panel, styles.replaySection)}>
+        <section
+          id="details"
+          className={cx(
+            primitives.panel,
+            styles.replaySection,
+            styles.revealSection,
+            styles.revealDelay.step3,
+            isSectionVisible("details") && styles.revealVisible
+          )}
+        >
           <div className={styles.sectionHeader}>
             <span className={primitives.sectionLabel}>{replayCopy.detailsTitle}</span>
             <p className={styles.sectionDescription}>{replayCopy.detailsDescription}</p>
@@ -470,7 +557,10 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
                                     <small>{messages.resultView.weightShort(criterion.weight)}</small>
                                   </div>
                                   <div className={styles.criterionTrack} aria-hidden="true">
-                                    <span className={styles.criterionTrackFill} style={{ width: `${criterion.score * 10}%` }} />
+                                    <span
+                                      className={styles.criterionTrackFill}
+                                      style={{ width: criteriaExpanded ? `${criterion.score * 10}%` : "0%" }}
+                                    />
                                   </div>
                                 </div>
                               </div>
@@ -486,7 +576,16 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
           </div>
         </section>
 
-        <section id="unknowns" className={cx(primitives.panel, styles.replaySection)}>
+        <section
+          id="unknowns"
+          className={cx(
+            primitives.panel,
+            styles.replaySection,
+            styles.revealSection,
+            styles.revealDelay.step4,
+            isSectionVisible("unknowns") && styles.revealVisible
+          )}
+        >
           <div className={styles.sectionHeader}>
             <span className={primitives.sectionLabel}>{replayCopy.unknownsTitle}</span>
             <p className={styles.sectionDescription}>{messages.resultView.unknownsDescription}</p>
@@ -505,7 +604,16 @@ export function ResultReplayView({ result }: ResultReplayViewProps) {
           )}
         </section>
 
-        <section id="verdict" className={cx(primitives.panel, styles.replaySection)}>
+        <section
+          id="verdict"
+          className={cx(
+            primitives.panel,
+            styles.replaySection,
+            styles.revealSection,
+            styles.revealDelay.step5,
+            isSectionVisible("verdict") && styles.revealVisible
+          )}
+        >
           <div className={styles.sectionHeader}>
             <span className={primitives.sectionLabel}>{replayCopy.finalTitle}</span>
             <p className={styles.sectionDescription}>{replayCopy.finalDescription}</p>

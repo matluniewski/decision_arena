@@ -133,6 +133,34 @@ export const replaySection = style({
   }
 });
 
+export const revealSection = style({
+  opacity: 0,
+  transform: "translateY(28px)",
+  transition: "opacity 560ms ease, transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1)",
+  willChange: "opacity, transform",
+  '@media': {
+    [media.reducedMotion]: {
+      opacity: 1,
+      transform: "none",
+      transition: "none"
+    }
+  }
+});
+
+export const revealVisible = style({
+  opacity: 1,
+  transform: "translateY(0)"
+});
+
+export const revealDelay = styleVariants({
+  step0: { transitionDelay: "0ms" },
+  step1: { transitionDelay: "60ms" },
+  step2: { transitionDelay: "90ms" },
+  step3: { transitionDelay: "120ms" },
+  step4: { transitionDelay: "140ms" },
+  step5: { transitionDelay: "160ms" }
+});
+
 export const sectionHeader = style({
   display: "grid",
   gap: vars.space.xs,
@@ -483,7 +511,13 @@ export const scoreTrackFill = style({
   display: "block",
   height: "100%",
   borderRadius: vars.radius.pill,
-  background: "linear-gradient(90deg, rgba(255, 107, 44, 0.95), rgba(15, 139, 141, 0.95))"
+  background: "linear-gradient(90deg, rgba(255, 107, 44, 0.95), rgba(15, 139, 141, 0.95))",
+  transition: "width 820ms cubic-bezier(0.2, 0.8, 0.2, 1)",
+  '@media': {
+    [media.reducedMotion]: {
+      transition: "none"
+    }
+  }
 });
 
 export const rankBadge = style({
@@ -734,7 +768,13 @@ export const criterionTrackFill = style({
   display: "block",
   height: "100%",
   borderRadius: vars.radius.pill,
-  background: "linear-gradient(90deg, rgba(15, 139, 141, 0.95), rgba(255, 107, 44, 0.9))"
+  background: "linear-gradient(90deg, rgba(15, 139, 141, 0.95), rgba(255, 107, 44, 0.9))",
+  transition: "width 520ms cubic-bezier(0.2, 0.8, 0.2, 1)",
+  '@media': {
+    [media.reducedMotion]: {
+      transition: "none"
+    }
+  }
 });
 
 export const unknownGrid = style({

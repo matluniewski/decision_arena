@@ -15,3 +15,17 @@ export const sharePanel = style([
     }
   }
 ]);
+
+export const loadingPanel = style({
+  display: "grid",
+  gap: vars.space.sm,
+  alignItems: "start"
+});
+
+export const loadingHint = style({
+  margin: 0,
+  color: vars.color.muted,
+  fontSize: vars.text.sm,
+  lineHeight: vars.lineHeight.body,
+  maxWidth: "64ch"
+});
