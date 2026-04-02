@@ -9,35 +9,48 @@ Decision Arena is a comparison-first decision tool for everyday life choices. Th
 
 ## Repo structure
 
-- `frontend`: React + TypeScript + Vite client
+- `frontend`: Next.js App Router + React + vanilla-extract
 - `backend`: Spring Boot API with mock AI mode and optional OpenAI or Gemini mode
+
+Frontend structure follows a feature/component split:
+
+- `src/app`: Next.js routes and providers
+- `src/features`: page-level feature views
+- `src/components`: reusable layout and result components
+- `src/lib`: API client and shared helpers
+- `src/i18n`: locale state and messages
+- `src/styles`: tokens and shared styling primitives
 
 ## Local setup
 
 ### Frontend
 
-1. Copy [frontend/.env.example](/e:/new%20project/frontend/.env.example) to `.env`.
+1. Copy `frontend/.env.example` to `.env.local`.
 2. Run `npm install` in `frontend`.
 3. Run `npm run dev`.
 
+The frontend expects:
+
+- `NEXT_PUBLIC_API_URL=http://localhost:8080`
+
 ### Backend
 
-1. Copy [backend/.env.example](/e:/new%20project/backend/.env.example) or one of the provider-specific examples in `backend/` to a local env file.
+1. Copy `backend/.env.example` or one of the provider-specific examples in `backend/` to a local env file.
 2. Start PostgreSQL with `docker compose up -d`.
 3. Install Java 21 and Maven.
 4. Run `mvn spring-boot:run` in `backend`.
 
 Recommended local setup:
 
-- copy [backend/.env.mock.example](/e:/new%20project/backend/.env.mock.example) to `backend/.env.mock.local`
-- copy [backend/.env.gemini.example](/e:/new%20project/backend/.env.gemini.example) to `backend/.env.gemini.local`
-- copy [backend/.env.openai.example](/e:/new%20project/backend/.env.openai.example) to `backend/.env.openai.local`
+- copy `backend/.env.mock.example` to `backend/.env.mock.local`
+- copy `backend/.env.gemini.example` to `backend/.env.gemini.local`
+- copy `backend/.env.openai.example` to `backend/.env.openai.local`
 
 Then start the backend with one command:
 
-- `.\run-mock.ps1`
-- `.\run-gemini.ps1`
-- `.\run-openai.ps1`
+- `./run-mock.ps1`
+- `./run-gemini.ps1`
+- `./run-openai.ps1`
 
 The local example env files disable request rate limiting by default, so repeated draft/analysis testing is not throttled during development.
 
@@ -69,14 +82,14 @@ Recommended split for a free staging environment:
 
 1. Import the repository into Vercel.
 2. Set the project root to `frontend`.
-3. Set `VITE_API_URL` to your backend URL, for example `https://decision-arena-api.onrender.com`.
+3. Set `NEXT_PUBLIC_API_URL` to your backend URL, for example `https://decision-arena-api.onrender.com`.
 4. Deploy.
 
-The file [frontend/vercel.json](/e:/new%20project/frontend/vercel.json) adds an SPA rewrite so direct navigation to client routes still serves `index.html`.
+No custom `vercel.json` rewrite is needed anymore. Next.js handles route serving natively.
 
 ### Backend on Render
 
-1. Create a web service from this repository or use [render.yaml](/e:/new%20project/render.yaml).
+1. Create a web service from this repository or use `render.yaml`.
 2. Set the root directory to `backend`.
 3. Build command: `mvn -DskipTests package`
 4. Start command: `java -jar target/decision-arena-backend-0.0.1-SNAPSHOT.jar`

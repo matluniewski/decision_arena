@@ -14,3 +14,6 @@ tools/
 .vscode/
 start-*.cmd
 run-*.vbs
+
+frontend/.next/
+frontend/.turbo/

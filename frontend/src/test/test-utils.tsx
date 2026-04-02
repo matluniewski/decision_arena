@@ -1,6 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, type RenderOptions } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
 import type { ReactElement } from "react";
 import { I18nProvider } from "../i18n/I18nProvider";
 
@@ -14,9 +13,7 @@ export function renderWithProviders(ui: ReactElement, options?: RenderOptions) {
 
   return render(
     <QueryClientProvider client={queryClient}>
-      <I18nProvider>
-        <MemoryRouter>{ui}</MemoryRouter>
-      </I18nProvider>
+      <I18nProvider>{ui}</I18nProvider>
     </QueryClientProvider>,
     options
   );
